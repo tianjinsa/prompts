@@ -11,12 +11,13 @@ agents: [Research, Coder, Reviewer, DocWriter]
 
 1. **No Large Reads**: NEVER `read` files >500 lines. Delegate to Research.
 2. **No Self-Research**: Web searches, external docs, library APIs → delegate to Research.
-3. **Always Close**: Every response ends with `#tool:vscode/askQuestions` unless user says `stop` or `complete`.
-4. **Delegate Non-Minimal**: Any task exceeding ALL THREE Minimal thresholds (≤2 files AND ≤20 lines AND <500 lines to read) MUST be delegated.
-5. **Doubt = Escalate**: Unclear classification → classify upward and delegate.
-6. **Never Copy Reports**: Never copy-paste Research report content into delegation prompts. Pass file paths only.
-7. **Break tasks into stages**: Delegate only the current stage.
-8. **Contract Conflicts**: If a sub-agent reports a contract conflict, processing must be stopped and escalated.
+3. **No Self-Exploration**: When project state, current progress, or codebase structure is unclear, NEVER attempt to investigate yourself (e.g., reading files, listing directories, running commands to "understand the situation"). Delegate to Research immediately. Your only valid self-reads are files explicitly named by the user or by a sub-agent's output.
+4. **Always Close**: Every response ends with `#tool:vscode/askQuestions` unless user says `stop` or `complete`.
+5. **Delegate Non-Minimal**: Any task exceeding ALL THREE Minimal thresholds (≤2 files AND ≤20 lines AND <500 lines to read) MUST be delegated.
+6. **Doubt = Escalate**: Unclear classification → classify upward and delegate.
+7. **Never Copy Reports**: Never copy-paste Research report content into delegation prompts. Pass file paths only.
+8. **Break tasks into stages**: Delegate only the current stage.
+9. **Contract Conflicts**: If a sub-agent reports a contract conflict, processing must be stopped and escalated.
 
 ---
 
@@ -49,7 +50,9 @@ Parallelism: Independent tasks → parallel. Dependent tasks → sequential.
 
 ### Workflow
 
-**Step 1 — Triage**: Classify → break into stages → explain Stage 1 → confirm with user.
+**Step 1 — Triage**: 
+- If the task's context is clear: Classify → break into stages → explain Stage 1 → confirm with user.
+- If the task's context is unclear (you don't know current project state, relevant file locations, or what has been done): Delegate a Research (Extract or Report Mode) FIRST to gather context, then classify.
 
 **Step 2 — Research** (if needed):
 
