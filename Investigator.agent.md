@@ -1,7 +1,7 @@
 ---
-name: Research
+name: Investigator
 description: 专门用于深度代码库扫描、架构分析和查阅文档的研究型子专家。
-user-invokable: false
+user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/memory, read, 'deepwiki/*', 'exa/*', 'io.github.tavily-ai/tavily-mcp/*', 'io.github.upstash/context7/*', edit/createDirectory, edit/createFile, edit/editFiles, search, web, todo]
 model: [Claude Opus 4.6 (copilot),GPT-5.4 (copilot),Claude Sonnet 4.6 (copilot)]

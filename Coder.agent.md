@@ -1,7 +1,7 @@
 ---
 name: Coder
 description: 专门用于处理大批量代码编写、复杂模块开发和重构的执行型子专家。
-user-invokable: false
+user-invocable: false
 disable-model-invocation: false
 tools: [ read, edit, search, 'io.github.upstash/context7/*', todo]
 model: [Claude Opus 4.6 (copilot),GPT-5.4 (copilot),Claude Sonnet 4.6 (copilot)]

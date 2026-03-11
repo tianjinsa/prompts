@@ -1,7 +1,7 @@
 ---
 name: DocWriter
 description: 专门负责生成和维护项目文档的子专家，包括 README、API 文档、代码内注释（JSDoc/TSDoc/Docstring）和 CHANGELOG。在功能开发完成并通过 QA 后由 Nexus 调用。
-user-invokable: false
+user-invocable: false
 disable-model-invocation: false
 tools: [read, edit, search, todo]
 model: [Claude Opus 4.6 (copilot),Claude Sonnet 4.6 (copilot),GPT-5.4 (copilot)]

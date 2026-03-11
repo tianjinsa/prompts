@@ -1,7 +1,7 @@
 ---
 name: Reviewer
 description: 专门负责代码审查（Code Review）、编写并运行自动化测试（单元/集成测试）以及质量保证（QA）的子专家。接受 Nexus 派发的已完成实现任务，寻找逻辑漏洞、边界缺陷和安全隐患，并通过可运行的测试加以验证。
-user-invokable: false
+user-invocable: false
 disable-model-invocation: false
 tools: [read, edit, execute/runInTerminal, search, todo]
 model: [GPT-5.4 (copilot),Claude Opus 4.6 (copilot)]
