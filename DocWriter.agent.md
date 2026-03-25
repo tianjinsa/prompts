@@ -4,7 +4,7 @@ description: 专门负责生成和维护项目文档的子专家，包括 README
 user-invocable: false
 disable-model-invocation: false
 tools: [read, edit, search, todo]
-model: [Claude Opus 4.6 (copilot),Claude Sonnet 4.6 (copilot),GPT-5.4 (copilot)]
+model: [Claude Haiku 4.5 (copilot)]
 ---
 
 ## ⚠️ Mandatory Rules (Never Violated)
