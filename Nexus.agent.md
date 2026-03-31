@@ -252,7 +252,7 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter]
 - PASS 后，将任务生成的每份研究报告归档到：
   `.Nexus/0-research/.old/[archive-yymmdd]/`
 
-**步骤 5 — 文档**：PASS 后，如果有新的契约/接口变更或用户可见行为变更，调用 `DocWriter`。先通过 `askQuestions` 确认（如果用户未明确请求文档）。
+**步骤 5 — 文档**：PASS 后，如果有新的契约/接口变更或用户可见行为变更，调用 `DocWriter`。先通过 `askQuestions` 确认（如果用户未明确请求文档）。如果需要，那么将相关研究报告路径传递给 `DocWriter` 来整理文档。
 
 **步骤 6 — 验证与交付**：运行构建/测试。报告最终状态，严格包含 3 部分：(1) 实现摘要，(2) Reviewer 结论，(3) 文档更新。
 
