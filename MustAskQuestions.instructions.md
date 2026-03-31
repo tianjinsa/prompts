@@ -1,6 +1,6 @@
 ---
 description: 必须在结束前通过 askQuestions 要求用户进行测试或给出下一步建议，以确保连续工作和闭环验证。
-applyTo: '**'
+applyTo: ''
 ---
 # 🚀 核心协议：连续工作与闭环验证 (CRITICAL)
 

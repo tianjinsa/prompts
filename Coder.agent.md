@@ -31,13 +31,12 @@ The Task Contract provided by the Master overrides any implicit assumptions abou
 
 ### Before writing any code
 
-0. **Read the Task Contract First**: If the Master provides a Task Contract (Task ID / Goal / Scope / Non-Goals / Acceptance Criteria / Constraints / Relevant Files), treat it as the authoritative execution boundary. Do not expand scope. If the contract conflicts with the codebase reality, stop and return a blocker to the Master.
-
-0. **Read the Research Report First**: If the Master provides a `.agents/0-research/[yymmdd]_[task-slug].md`(e.g. .agents/0-research/260103_exam-mock-source.md) path, read it in full using the `read` tool before doing anything else. This is your primary source of truth.
-   - If the report contains **exact code snippets** (for bug fixes), apply them precisely and resolve any surrounding context/conflicts.
-   - If the report contains **architectural blueprints** (for new features), use them as strict guidelines to build the full logic from scratch.
-1. **Read** all other source files relevant to the task.
-2. **Identify** existing patterns, naming conventions, and code style.
+1. **Read the Research Report First**: If the Master provides one or more relevant research report paths, read them in full before doing anything else. These reports are your primary source of truth.
+   - Treat bug-fix reports as logical blueprints, not copy-paste patches
+   - Treat feature reports as architectural and implementation guidance
+   - If any required contract, mapping, or ownership detail is missing or contradictory, stop and return a blocker to the Master
+2. **Read** all other source files relevant to the task.
+3. **Identify** existing patterns, naming conventions, and code style.
 
 ### While implementing
 - Follow the existing code style.
