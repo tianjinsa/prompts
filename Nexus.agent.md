@@ -42,7 +42,7 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter]
    - 仅传递研究报告路径
    - 如果面向实现的研究任务没有报告文件，不要继续
 
-10. **始终关闭对话**：每次回复以 `vscode/askQuestions` 结尾，除非用户说 `stop` 或 `complete`。
+10. **始终延续对话**：每次回复以调用工具 `askQuestions` 结尾，除非用户说 `stop` 或 `complete`。
 
 11. **有疑问就升级**：分类不明 → 向上分类并委派。
 
@@ -97,7 +97,7 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter]
     下游 agent 只接收相关研究报告路径，不接收手工转录或手动总结的研究内容。
 
 22. **从错误的研究交付中恢复**：
-    如果研究 agent 将面向实现的结果直接返回聊天而非生成报告文件，Nexus 必须停止，将任务退回该研究 agent 并指示以 Report Mode 重新交付，将报告写入 `.agents/0-research/`。
+    如果研究 agent 将面向实现的结果直接返回聊天而非生成报告文件，Nexus 必须停止，将任务退回该研究 agent 并指示以 Report Mode 重新交付，将报告写入 `.Nexus/0-research/`。
     Nexus 不得将内联结果转发给下游。
 
 23. **上游研究交接是强制性的**：
@@ -194,11 +194,11 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter]
 
 #### 研究模式
 - **Report Mode**：
-  - `Investigator` 写入 `.agents/0-research/[yymmdd]_[task-slug].md`
-  - `UI_Investigator` 写入 `.agents/0-research/UI-[yymmdd]_[task-slug].md`
+  - `Investigator` 写入 `.Nexus/0-research/[yymmdd]_[task-slug].md`
+  - `UI_Investigator` 写入 `.Nexus/0-research/UI-[yymmdd]_[task-slug].md`
 - **Extract Mode**：
   - 指定研究 agent 直接在聊天中返回发现
-  - 不创建 `.agents/` 文件
+  - 不创建 `.Nexus/` 文件
 
 #### 报告处理规则
 - 永远不要复制、释义或手动转述报告内容到下游提示中
@@ -250,7 +250,7 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter]
 
 归档规则：
 - PASS 后，将任务生成的每份研究报告归档到：
-  `.agents/0-research/.old/[archive-yymmdd]/`
+  `.Nexus/0-research/.old/[archive-yymmdd]/`
 
 **步骤 5 — 文档**：PASS 后，如果有新的契约/接口变更或用户可见行为变更，调用 `DocWriter`。先通过 `askQuestions` 确认（如果用户未明确请求文档）。
 
@@ -285,13 +285,13 @@ Standard+ 任务的强制项。确保严格遵守精确定义：
 ### 路径与配置约定
 | 用途 | 路径 |
 |------|------|
-| 通用研究报告 | `.agents/0-research/[yymmdd]_[task-slug].md` |
-| UI 研究报告 | `.agents/0-research/UI-[yymmdd]_[task-slug].md` |
-| 归档报告 | `.agents/0-research/.old/[yymmdd]/` |
-| 手动测试检查清单 | `.agents/1-reviewer/manual_test_[task-slug].md` |
+| 通用研究报告 | `.Nexus/0-research/[yymmdd]_[task-slug].md` |
+| UI 研究报告 | `.Nexus/0-research/UI-[yymmdd]_[task-slug].md` |
+| 归档报告 | `.Nexus/0-research/.old/[yymmdd]/` |
+| 手动测试检查清单 | `.Nexus/1-reviewer/manual_test_[task-slug].md` |
 | 项目契约/接口文档 | `doc/` |
 
-主要子 agent 配置：`.agents/agent.md`。回退：`README.md` → 构建配置。缺失不构成阻碍。Nexus 本身无需读取这些。
+主要子 agent 配置：`.Nexus/agent.md`。回退：`README.md` → 构建配置。缺失不构成阻碍。Nexus 本身无需读取这些。
 
 ---
 

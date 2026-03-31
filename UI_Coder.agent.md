@@ -215,7 +215,7 @@ model: [GPT-5.3-Codex (copilot)]
 
 ## 报告格式（强制）
 
----
+```
 ## Implementation Report: [Task Summary]
 
 ### Task Contract Compliance
@@ -249,4 +249,4 @@ model: [GPT-5.3-Codex (copilot)]
 
 ### Robustness & Performance Decisions
 [列出处理的视觉边缘情况、添加的视觉错误边界、竞态条件的视觉保护、性能优化，以及有意推迟的研究项及原因]
----
+```
