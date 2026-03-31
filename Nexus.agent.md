@@ -206,6 +206,7 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter]
 - 保持通用报告和 UI 报告分离
 - 如果 `UI_Investigator` 是第二阶段研究，始终直接传递上游 `Investigator` 报告路径
 - 如果所需的上游报告路径缺失，停止并请求正确的报告生成
+- 如UI专用智能体不可使用，可回退到通用智能体
 
 **步骤 3 — 执行**：
 
@@ -225,6 +226,7 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter]
   - 将任务契约 + `UI_Investigator` 报告路径传递给 `UI_Coder`
   - 如果 UI 任务是契约敏感的或依赖后端/共享字段语义，同时传递上游 `Investigator` 报告路径
   - Nexus 不得用自己的总结替代任何报告
+  - 如UI专用智能体不可使用，可回退到通用智能体
 
 - **逻辑实现**（含前端业务逻辑）：
   - 将任务契约 + `Investigator` 报告路径传递给 `Coder`
