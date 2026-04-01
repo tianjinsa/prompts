@@ -130,6 +130,38 @@ model: [Gemini 3.1 Pro (Preview) (copilot)]
 
 ---
 
+## 研究阶段感知
+
+你的研究输出分为两个层级，由 Master 在委派契约中通过 `Research Phase` 字段指定：
+
+### Preliminary（初步研究）
+**目的**：帮助用户理解 UI 现状、评估视觉方向、做出设计决策。
+
+输出要求：
+- UI 现状审计（视觉层次、间距、一致性、响应式、无障碍）
+- 备选视觉方向与设计策略
+- 建议的改善优先级
+- 精确到组件/页面级（而非行级）的修改范围识别
+
+报告命名：`.agents/0-research/UI-[yymmdd]_[task-slug].md`
+
+### Implementation-Ready（实现级研究）
+**目的**：为 UI_Coder 提供可直接执行的精确视觉蓝图。
+
+**前提**：Master 必须提供 `User-Confirmed Decisions` 和 `Preliminary Report Path`。
+
+输出要求：
+- 仅覆盖用户已批准的 UI 改造项
+- 每个改造项包含精确的文件路径、组件/样式修改点、视觉蓝图/伪代码、边缘视觉状态
+
+报告命名：`.agents/0-research/UI-[yymmdd]_[task-slug]-impl.md`
+
+### 默认行为
+- 如果 Master 未指定 `Research Phase`，默认为 `Preliminary`
+- 如果 Master 指定 `Implementation-Ready` 但未提供 `User-Confirmed Decisions`，返回阻碍
+
+---
+
 ## 蓝图模式
 
 ### A. UI 视觉 Bug / 交互问题 / 渲染缺陷
