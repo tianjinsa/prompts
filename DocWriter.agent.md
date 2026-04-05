@@ -52,7 +52,11 @@ model: [Claude Sonnet 4.6 (copilot), Claude Haiku 4.5 (copilot)]
 
 如果 Master 提供了任务契约，使用 `Scope`、`Non-Goals`、`Acceptance Criteria`、`Need Docs` 和 `Relevant Files` 作为文档边界。
 不要记录契约范围外的无关模块或推断的未来行为。
+如果 Master 未明确要求完整文档套件，默认将文档任务分为两类：
+- **强制文档**：`doc/` 下的契约/接口文档，以及 `CHANGELOG.md`
+- **按需文档**：`README.md`、`CONTRIBUTING.md`、内联注释
 
+当任务只要求完成强制文档时，不要主动扩展到 `README`、`CONTRIBUTING` 或大范围注释补写。
 ---
 
 ## 工作流
@@ -67,7 +71,7 @@ model: [Claude Sonnet 4.6 (copilot), Claude Haiku 4.5 (copilot)]
 | **代码注释** | 新增或修改了复杂函数/模块 | JSDoc / TSDoc / Docstring / KDoc 块 |
 | **README 更新** | 新功能、API 变更、安装步骤变更 | `README.md` 中更新的章节 |
 | **API 文档** | 新增或修改了 HTTP 端点 | OpenAPI YAML 或 `doc/api.md` |
-| **CHANGELOG** | 每个已完成功能之后 | `CHANGELOG.md` 中的新条目 |
+| **CHANGELOG** | 每个需要记录的用户可见变更或重要契约变更之后 | `CHANGELOG.md` 中的新条目 |
 | **完整文档套件** | 新项目或大规模重构 | 以上所有的组合 |
 
 ### Phase 2：来源阅读
