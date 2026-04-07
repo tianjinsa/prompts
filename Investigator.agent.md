@@ -4,7 +4,7 @@ description: 通用研究专家，负责后端/核心逻辑、前端业务逻辑
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/memory, vscode/runCommand, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
-model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot)]
+model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot)]
 agents: ["WebSearcher"]
 ---
 

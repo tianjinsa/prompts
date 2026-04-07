@@ -4,7 +4,7 @@ description: 唯一的 Web 搜索与信息检索专家。系统中所有网络�
 user-invocable: false
 disable-model-invocation: false
 tools: [read/readFile, edit/createDirectory, edit/createFile, edit/editFiles, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/usages, web, 'deepwiki/*', 'github/*', 'io.github.tavily-ai/tavily-mcp/*', ms-vscode.vscode-websearchforcopilot/websearch]
-model: [Gemini 3.1 Pro (Preview) (copilot), Claude Sonnet 4.6 (copilot)]
+model: [GPT-5.4 (copilot), Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot)]
 ---
 
 # 角色
