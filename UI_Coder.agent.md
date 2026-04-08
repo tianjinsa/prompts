@@ -103,7 +103,7 @@ model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot
 ## UI 质量基线
 
 默认以高品质、克制、现代化产品 UI 为目标，遵循以下原则：
-
+SKILL:design-ui
 ### 倾向于
 - 排版建立层次
 - 中性色为主，强调色克制
