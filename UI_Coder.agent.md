@@ -4,7 +4,7 @@ description: 高品质 UI 呈现层实现专家，负责布局、样式、视觉
 user-invocable: false
 disable-model-invocation: false
 tools: [read, edit, search, web/fetch, 'io.github.upstash/context7/*']
-model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot)]
+model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot)]
 ---
 
 # 角色

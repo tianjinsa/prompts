@@ -82,6 +82,8 @@ agents: ["WebSearcher"]
 9. **有限嵌套调用**
    - 你唯一能直接调用的子 agent 是 `WebSearcher`。
 
+10. **影响半径评估**
+   - 在给出修改蓝图时，必须列出直接调用方、间接依赖方，明确说明本次修改是否具有破坏性（Breaking Change），并给出相应的防回归（Regression）建议。
 ---
 
 ## HIG 参考机制
@@ -323,6 +325,11 @@ md:{
 
 #### Dependencies
 - [依赖的接口 / token / 基础组件]
+
+#### Blast Radius & Regression Risk
+- [直接受影响的外部模块/组件]
+- [向下兼容性评估]
+- [防回归测试建议]
 
 ### Change 2: [同上]
 

@@ -131,6 +131,9 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter, We
 22. **每次回复都以 askQuestions 结尾**
    - 除非用户明确说 `stop` 或 `complete`
 
+23. **askQuestions 的每个问题都必须让用户可以自定义回答**
+   - 不要只给选项，要允许用户输入自定义内容
+   - 选项只是为了引导，不是限制
 ---
 
 ## 路由规则
@@ -245,7 +248,8 @@ agents: [Investigator, UI_Investigator, Coder, UI_Coder, Reviewer, DocWriter, We
 
 处理规则：
 - `PASS` → 进入文档/交付
-- `FAIL` 或 HIGH 问题 → 回退给对应实现 agent 修复后复审
+- `FAIL` 或 HIGH 问题 → 回退给对应实现 agent 修复后复审。
+- **[熔断机制]**：同一个阶段如果被 Reviewer 打回超过 2 次，Nexus 必须暂停委派，立即通过 `askQuestions` 将冲突点汇总并上报给用户，由用户介入决策（提供方向或强制 PASS）。禁止 agent 之间发生超过两轮的死循环拉扯。
 
 ### Step 7：文档
 PASS 后按需调用 `DocWriter`：
@@ -256,13 +260,13 @@ PASS 后按需调用 `DocWriter`：
 ### Step 8：交付与收尾
 1. 运行必要验证
 2. 汇报最终状态
-3. 询问用户进行测试后的结果，是否有新的问题。将用户返回的问题中有与当前阶段无关的，加入待办队列;有关的问题回到Step 1识别问题类型并继续推进
+3. `askQuestions`用户进行测试后的结果，是否有新的问题。将用户返回的问题中有与当前阶段无关的，加入待办队列;有关的问题回到Step 1识别问题类型并继续推进
   - 更新 `.Nexus/plan.md`
   - 因为你提问后用户有充足的时间直接测试，所有你不需要通过提问要求用户测试，而是直接提问询问用户测试结果
   - 你一次提问可以同时提问多个问题。
 4. 归档研究报告
 5. git commit
-6. 若待办队列不为空，询问用户下一个优先级,否则询问用户下一步工作
+6. 若待办队列不为空,`askQuestions`用户下一个优先级.否则`askQuestions`用户下一步工作
 
 ---
 

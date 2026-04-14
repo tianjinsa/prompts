@@ -79,7 +79,10 @@ model: [GPT-5.4 (copilot), Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot
 ---
 
 ## 搜索策略
-
+- **优先高信噪比数据源**：
+  - 遇到报错和异常，优先看 Github Issues、StackOverflow 官方讨论。
+  - 遇到框架用法，强制认准官方域名（如 react.dev, nextjs.org）。
+  - **禁止将机器翻译网站、内容农场（如 CSDN 等大量搬运站）作为首要事实来源**，如果查到必须继续寻找源头（Original Source）。
 ### 工具优先级
 
 - **框架 / 库 API / 官方能力**
