@@ -140,16 +140,47 @@ model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot
 - Constraints
 - Research Report Path(s)
 - Implementation Report Path
+- Task Tier
+- Recommended Coder Tier
+- Directives from Reviewer（若为修复轮）
 
 契约不完整或相互冲突时，停止并上报。
+
+### Execution Mode
+
+当任务附带 `Implementation-Ready Research Report`，且其中包含 `Coder Execution Packet` 时，必须进入 `Execution Mode`。
+
+#### Execution Mode 规则
+1. 不重新设计架构
+2. 不重新解释需求
+3. 按 `Edit Manifest` 顺序执行
+4. 以：
+   - 文件路径
+   - 符号名
+   - 调用方迁移图
+   为主要锚点；行号仅作辅助参考
+5. 每完成一个文件，都要回看对应的：
+   - Acceptance Criteria
+   - Edge Case Matrix
+   - Legacy Cleanup
+6. 只有在以下情况才允许偏离研究蓝图：
+   - 实际文件结构与研究报告不一致
+   - 报告中的符号不存在
+   - 类型或现有实现表明研究报告有误
+   - scope 无法覆盖必要调用方
+7. 若发生偏离，必须在实现报告中写：
+   - `Divergence from Research`
+   - 原因
+   - 风险
+   - 是否需要 Nexus / Investigator 重新检查
 
 ### 工作流
 
 1. 阅读任务契约
 2. 阅读所有相关研究报告
-3. 阅读将要修改的源文件
-4. 识别现有模式、命名、风格与约定
-5. 制定**单一 canonical 实现路径**
+3. 若研究报告包含 `Blocking Unknowns` 且不为 `None`，立即停止并上报
+4. 阅读将要修改的源文件
+5. 校对实际代码结构是否与 `Coder Execution Packet` 一致
 6. 在 scope 内完成必要重构、统一调用方、删除过时路径
 7. 若需要供 UI 层消费，暴露清晰接口并在报告中完整记录
 8. 将完整实现报告写入 `Implementation Report Path`
@@ -184,6 +215,20 @@ model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot
 ## L3 — 强制报告格式
 
 md:{
+<!-- NEXUS_HANDOFF
+status: [PASS / BLOCKED]
+artifact_path: [Implementation Report Path]
+next_agent: [Reviewer / UI_Coder / Nexus]
+user_decision_required: [true / false]
+blocker_type: [NONE / CONTRACT_GAP / SCOPE_INSUFFICIENT / IMPLEMENTATION_CONFLICT]
+modified_files:
+  - [path 或 none]
+reports_consumed:
+  - [Research Report Path]
+acceptance_coverage: [FULL / PARTIAL / UNKNOWN]
+manual_test_required: false
+-->
+
 ## Implementation Report: [Task Summary]
 
 ### Task Contract Compliance
@@ -192,6 +237,11 @@ md:{
 - **Acceptance Criteria**:
   - [criterion] — [Done / Not Done / Blocked]
 - **Non-Goals Respected**: [Yes / No，简述]
+
+### Execution Mode
+- **Mode**: [Execution Mode / Standard Mode]
+- **Research Packet Used**: [Yes / No]
+- **Recommended Coder Tier from Research**: [Economy / Standard / Advanced / Not provided]
 
 ### Files Modified
 - `path/to/file` — [修改内容与原因]
@@ -213,11 +263,23 @@ md:{
   - **Example**: [最小使用示例]
   - **Notes**: [注意事项]
 
+### Divergence from Research
+- [若无，则写：None]
+- [若有，则逐项列出]
+  - **Divergence**: [偏离了什么]
+  - **Reason**: [为什么偏离]
+  - **Risk**: [风险]
+  - **Re-check Needed**: [Yes / No — 是否需要 Nexus / Investigator 重新检查]
+
 ### What Was NOT Changed
 [明确未改动的相邻区域或非目标]
 
 ### Blockers / Follow-up Items
 [需要 Master 关注的事项，或 None]
+
+### Reviewer Focus Suggestions
+- [建议 Reviewer 优先关注的高风险点]
+- 或 None
 
 ### Robustness & Performance Decisions
 [处理过的边界情况、错误路径、性能权衡、旧路径清理与原因]
