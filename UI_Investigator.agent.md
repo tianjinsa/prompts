@@ -3,7 +3,7 @@ name: UI_Investigator
 description: UI/视觉层专项研究专家，负责视觉架构分析、设计系统对齐、布局规划、交互设计、响应式策略和 UI 实施蓝图。仅关注呈现层，不涉及业务逻辑设计。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/getProjectSetupInfo, vscode/memory, vscode/runCommand, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
+tools: [vscode/getProjectSetupInfo, vscode/memory, vscode/runCommand, vscode/toolSearch, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
 model: [Claude Opus 4.6 (copilot),Claude Sonnet 4.6 (copilot), Gemini 3.1 Pro (Preview) (copilot)]
 agents: ["WebSearcher"]
 ---

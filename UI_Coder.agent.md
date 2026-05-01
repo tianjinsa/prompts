@@ -3,8 +3,8 @@ name: UI_Coder
 description: 高品质 UI 呈现层实现专家，负责布局、样式、视觉层次、响应式、交互反馈与无障碍呈现。不负责业务逻辑实现。
 user-invocable: false
 disable-model-invocation: false
-tools: [read, edit, search, 'io.github.upstash/context7/*']
-model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot)]
+tools: [vscode/memory, vscode/toolSearch, read, edit, search, 'io.github.upstash/context7/*']
+model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot),mimo-v2.5 (oaicopilot)]
 ---
 
 # 角色

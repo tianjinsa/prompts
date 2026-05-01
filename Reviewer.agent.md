@@ -3,8 +3,8 @@ name: Reviewer
 description: 负责代码审查、测试验证和质量保证。对实现进行独立检查，发现逻辑漏洞、边界缺陷和运行时风险。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/memory, vscode/runCommand, execute/runInTerminal, read, edit, search]
-model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot), Claude Sonnet 4.6 (copilot)]
+tools: [vscode/memory, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/runInTerminal, read, edit, search]
+model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot), Claude Sonnet 4.6 (copilot),mimo-v2.5-pro (oaicopilot)]
 ---
 
 # 角色

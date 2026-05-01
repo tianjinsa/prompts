@@ -3,8 +3,8 @@ name: DocWriter
 description: 项目契约与接口文档整理专家。负责维护 doc/、项目级文档、必要的 API 规范文件和代码注释，确保文档与当前实现一致。
 user-invocable: false
 disable-model-invocation: false
-tools: [read, edit, search]
-model: [Claude Sonnet 4.6 (copilot), Claude Haiku 4.5 (copilot)]
+tools: [vscode/memory, vscode/toolSearch, read, edit, search]
+model: [Claude Sonnet 4.6 (copilot), deepseek-v4-flash (oaicopilot)]
 ---
 
 # 角色

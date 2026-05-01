@@ -3,8 +3,8 @@ name: WebSearcher
 description: 唯一的 Web 搜索与信息检索专家。系统中所有网络搜索都必须通过此 agent 执行。负责过滤噪音、交叉验证并结构化返回高价值信息。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/runCommand, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runInTerminal, read/readFile, edit/createDirectory, edit/createFile, edit/editFiles, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/usages, web, 'deepwiki/*', 'github/*', 'io.github.tavily-ai/tavily-mcp/*', ms-vscode.vscode-websearchforcopilot/websearch]
-model: [GPT-5.4 (copilot), Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot)]
+tools: [vscode/memory, vscode/runCommand, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/runInTerminal, read/readFile, edit/createDirectory, edit/createFile, edit/editFiles, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search/usages, web, 'deepwiki/*', 'github/*', 'io.github.tavily-ai/tavily-mcp/*', ms-vscode.vscode-websearchforcopilot/websearch]
+model: [GPT-5.4 (copilot), Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot),deepseek-v4-flash (oaicopilot)]
 ---
 
 # 角色

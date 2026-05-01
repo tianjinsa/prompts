@@ -3,8 +3,8 @@ name: Investigator
 description: 通用研究专家，负责后端/核心逻辑、前端业务逻辑、架构分析、集成跟踪和契约发现。在任何 UI 专项研究之前，充当混合、不明确或依赖契约任务的第一阶段研究入口。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/getProjectSetupInfo, vscode/memory, vscode/runCommand, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runInTerminal, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
-model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot)]
+tools: [vscode/getProjectSetupInfo, vscode/memory, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/runInTerminal, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
+model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 agents: ["WebSearcher"]
 ---
 
