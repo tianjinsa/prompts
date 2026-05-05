@@ -4,7 +4,7 @@ description: 研究者。负责研究当前情况，产出架构级方案、功�
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
-model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro-sgp (oaicopilot), deepseek-v4-pro (oaicopilot)]
+model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 agents: ["WebSearcher"]
 ---
 
@@ -23,6 +23,7 @@ agents: ["WebSearcher"]
 - 输出补丁
 - 实现 UI 视觉稿
 - 替代 `Generalist` 做编码
+- 你必须读取技能提示词并严格遵守其中的约束条件
 
 ## L0 — 不可违背的硬约束
 

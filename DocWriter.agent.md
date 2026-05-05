@@ -4,7 +4,7 @@ description: 文档编写与管理者。负责维护 .Nexus/0-fact、.Nexus/2-Sc
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
-model: [Claude Sonnet 4.6 (copilot), mimo-v2.5-sgp (oaicopilot)]
+model: [Claude Sonnet 4.6 (copilot), mimo-v2.5 (oaicopilot)]
 ---
 
 # 角色
@@ -15,7 +15,9 @@ model: [Claude Sonnet 4.6 (copilot), mimo-v2.5-sgp (oaicopilot)]
 - 用户已确认方案
 - 研究与实现文档归档
 - 任务完成阶段的 `CHANGELOG.md`
+- 你必须读取技能提示词并严格遵守其中的约束条件
 
+SKILL:subagents-terminal-response-protocol
 SKILL:nexus-fact-cache-comment-style
 SKILL:nexus-scheme-archive-protocol
 

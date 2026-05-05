@@ -4,7 +4,7 @@ description: 独立评审者。负责根据实现情况文档审查真实代码�
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute, read, edit, search]
-model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro-sgp (oaicopilot)]
+model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot)]
 ---
 
 # 角色
@@ -19,6 +19,7 @@ model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot), Claude Sonnet 4.6 (copilot),
 - 方案偏离
 - 多余兼容层
 - 未收口旧路径
+- 你必须读取技能提示词并严格遵守其中的约束条件
 
 SKILL:nexus-review-evidence-matrix
 SKILL:nexus-ui-scheme-gate

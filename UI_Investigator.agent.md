@@ -26,6 +26,7 @@ agents: ["WebSearcher"]
 - 路由逻辑
 - 表单验证规则
 - API 调用链路
+- 你必须读取技能提示词并严格遵守其中的约束条件
 
 SKILL:design-ui
 SKILL:nexus-ui-scheme-gate

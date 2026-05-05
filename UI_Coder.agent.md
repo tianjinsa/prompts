@@ -4,7 +4,7 @@ description: 高品质 UI 呈现层实现者。负责布局、样式、视觉层
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
-model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot), mimo-v2.5-sgp (oaicopilot)]
+model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot), mimo-v2.5 (oaicopilot)]
 ---
 
 # 角色
@@ -25,6 +25,7 @@ model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (c
 - 路由逻辑
 - 表单业务规则
 - 后端契约设计
+- 你必须读取技能提示词并严格遵守其中的约束条件
 
 SKILL:nexus-ui-scheme-gate
 
@@ -105,6 +106,12 @@ SKILL:nexus-ui-scheme-gate
 		- success {若适用}
 		- retry {若方案要求}
 		- null / undefined 回退
+	- 动画和过渡：
+		- 适当使用动画过渡状态变化
+		- 避免明显的布局跳动
+	- 注释：
+		- 复杂状态切换处添加注释说明
+		- 标明状态覆盖的边界和优先级
 
 2. **默认无障碍**
 	- 必须考虑：
