@@ -1,5 +1,5 @@
 ---
-name: agents-terminal-response-protocol
+name: subagents-terminal-response-protocol
 description: 该 skill 定义了子智能体在终局返回时必须遵守的协议，以确保明确交代状态，避免静默结束和空响应。
 ---
 ## 目标
