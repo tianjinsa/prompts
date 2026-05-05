@@ -126,12 +126,16 @@ Nexus
 ### 1. 安装智能体文件
 
 将智能体文件放到以下目录，若不存在请自行创建：
-```%USERPROFILE%\AppData\Roaming\Code\User\prompts```
+```
+%USERPROFILE%\AppData\Roaming\Code\User\prompts
+```
 
 ### 2. 安装 skills 文件
 
 将 `skill` 文件夹中的内容放到以下目录，若不存在请自行创建：
-```%USERPROFILE%\.agents\skills```
+```
+%USERPROFILE%\.agents\skills
+```
 
 ### 3. 可选：配置第三方模型
 
