@@ -4,7 +4,7 @@ description: 唯一的 Web 搜索与信息检索专家。系统中所有网络�
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/runInTerminal, read/readFile, read/terminalSelection, read/terminalLastCommand, edit/createDirectory, edit/createFile, edit/editFiles, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search/usages, web, 'deepwiki/*', 'github/*', 'io.github.tavily-ai/tavily-mcp/*', ms-vscode.vscode-websearchforcopilot/websearch]
-model: [GPT-5.4 (copilot), Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.3-Codex (copilot),mimo-v2.5 (oaicopilot)]
+model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot),mimo-v2.5 (oaicopilot)]
 ---
 
 # 角色
