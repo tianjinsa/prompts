@@ -22,6 +22,22 @@ Nexus 的核心思路很简单：
 
 ---
 
+## 安装
+
+### 1. 安装文件
+
+将 `skills`与 `agents` 文件夹放到以下目录，若不存在请自行创建：
+
+```
+%USERPROFILE%\.copilot
+```
+
+### 2. 可选：配置第三方模型
+
+GitHub Copilot 可通过插件 **OAI Compatible Provider for Copilot** 配置第三方模型。
+
+---
+
 ## 核心理念
 
 Nexus 不是让多个 Agent “同时乱做事”，而是让它们**按阶段协作**：
@@ -118,28 +134,6 @@ Nexus
 - 几行代码就能完成的小改动
 - 无文件系统的纯聊天环境
 - 只想单轮拿结果、不关心过程产物的场景
-
----
-
-## 安装
-
-### 1. 安装智能体文件
-
-将智能体文件放到以下目录，若不存在请自行创建：
-```
-%USERPROFILE%\AppData\Roaming\Code\User\prompts
-```
-
-### 2. 安装 skills 文件
-
-将 `skill` 文件夹中的内容放到以下目录，若不存在请自行创建：
-```
-%USERPROFILE%\.agents\skills
-```
-
-### 3. 可选：配置第三方模型
-
-GitHub Copilot 可通过插件 **OAI Compatible Provider for Copilot** 配置第三方模型。
 
 ---
 

@@ -3,3 +3,8 @@ all.instructions.prompt.md
 MustAskQuestions.instructions.md
 修改方案.md
 memories/
+vscode.*
+session-state/
+*.log
+ide/
+oaicopilot/

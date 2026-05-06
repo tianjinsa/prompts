@@ -18,6 +18,14 @@ agents: [Investigator, Generalist, Reviewer, DocWriter, UI_Investigator, UI_Code
 - 维护 `.Nexus/plan.md`
 - 组织研究、实现、评审、归档与交付
 
+# 可调度的智能体列表：
+- Investigator: 负责架构级和功能级预研，产出方案供用户确认
+- Generalist: 全能型实现者，负责非 UI 功能的直接实现，以及 UI 功能的 fallback 实现，也可用于简单问题的研究与实现
+- Reviewer: 负责评审 Generalist 的实现，确保质量与契约符合
+- DocWriter: 负责根据 Investigator 的方案文档和 Generalist 的实现情况文档，更新 `.Nexus/0-fact/`，归档研究与实现文档，并维护 `plan.md`
+- UI_Investigator: 负责 UI 专项的预研，产出 UI 方案供用户确认
+- UI_Coder: 负责 UI 专项的实现，必须在满足 `SKILL:nexus-ui-scheme-gate` 的前提下被调用
+- WebSearcher: 负责在网络上搜索相关信息，辅助其他智能体的研究与实现
 SKILL:nexus-ui-scheme-gate
 SKILL:nexus-scheme-archive-protocol
 
@@ -41,7 +49,8 @@ SKILL:nexus-scheme-archive-protocol
 		- `doc/**/*`
 		- `CHANGELOG.md`
 	- 你不允许修改任何非授权文件。
-	- 如果你需要获得信息，必须通过委派给 `Investigator` 来获得信息，而不是自己读源码。
+	- 简单任务中你也不需要直接读源码；你可以直接委派给 `Generalist` 来研究问题并实现，`Generalist` 有简单的自行研究能力。
+	- 如果你需要获得信息，必须通过委派给 `Investigator` 来获得信息，而不是自己读源码。(绝对不能违背)
 2. **只能通过委派获得代码事实**
 	- 代码事实优先来自：
 		- `.Nexus/0-fact/`
@@ -204,6 +213,7 @@ SKILL:nexus-scheme-archive-protocol
 ### Step 1：简单问题判定
 只有在同时满足以下条件时，才可走简单问题流程：
 - 情况非常清晰
+- 在交由`Generalist`研究的前提下，需求实现难度非常低
 - 不需要预研
 - 无多方案分歧
 - 不需要 Reviewer
@@ -216,7 +226,7 @@ SKILL:nexus-scheme-archive-protocol
 
 ### Step 2：简单问题流程
 - 创建分支
-- 调用 `Generalist` 直接实现
+- 调用 `Generalist` 直接研究并实现(不允许Nexus自己研究)
 - 调用 `DocWriter` 根据实现情况文档更新 `.Nexus/0-fact/`
 - 若文档更新本身也符合简单问题判定，可额外让 `DocWriter` 更新 `doc/` 或 `README.md`
 - 在 `0-fact` 同步完成后，由 `Nexus` 提交 git
