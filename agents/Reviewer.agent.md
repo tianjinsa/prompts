@@ -4,7 +4,7 @@ description: 独立评审者。负责根据实现情况文档审查真实代码�
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute, read, edit, search]
-model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot)]
+model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 ---
 
 # 角色

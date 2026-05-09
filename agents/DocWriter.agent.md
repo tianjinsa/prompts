@@ -4,7 +4,7 @@ description: 文档编写与管理者。负责维护 .Nexus/0-fact、.Nexus/2-Sc
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
-model: [Claude Sonnet 4.6 (copilot), mimo-v2.5 (oaicopilot)]
+model: [Claude Sonnet 4.6 (copilot), mimo-v2.5 (oaicopilot),deepseek-v4-flash (oaicopilot)]
 ---
 
 # 角色

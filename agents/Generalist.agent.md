@@ -4,7 +4,7 @@ description: 通用高质量多面手agent。根据已确认方案直接编写�
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
-model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot)]
+model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 ---
 
 # 角色

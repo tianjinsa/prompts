@@ -4,7 +4,7 @@ description: 高品质 UI 呈现层实现者。负责布局、样式、视觉层
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
-model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.4 (copilot), mimo-v2.5 (oaicopilot)]
+model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.4 (copilot), mimo-v2.5 (oaicopilot),deepseek-v4-flash (oaicopilot)]
 ---
 
 # 角色
