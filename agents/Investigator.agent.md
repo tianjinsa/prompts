@@ -4,7 +4,7 @@ description: 研究者。负责研究当前情况，产出架构级方案、功�
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/getProjectSetupInfo, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
-model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
+model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 agents: ["WebSearcher"]
 ---
 
