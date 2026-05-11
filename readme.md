@@ -28,9 +28,10 @@ Nexus 的核心思路很简单：
 
 将 `skills`与 `agents` 文件夹放到以下目录，若不存在请自行创建：
 
-```
+```windows
 %USERPROFILE%\.copilot
 ```
+其他系统请查看 GitHub Copilot 官方文档，找到对应的用户配置目录。
 
 ### 2. 配置各 Agent 的使用模型
 在每个 agent 的文件头配置中，设置 `model` 字段，例如：
