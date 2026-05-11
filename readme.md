@@ -28,6 +28,7 @@ Nexus 的核心思路很简单：
 
 将 `skills`与 `agents` 文件夹放到以下目录，若不存在请自行创建：
 
+windows 系统：
 ```windows
 %USERPROFILE%\.copilot
 ```
