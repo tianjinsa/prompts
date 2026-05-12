@@ -1,6 +1,6 @@
 ---
-name: nexus-generalist-coding-protocol
-description: 定义 Generalist 的非 UI 实现、简单任务有限上下文确认、Review 修复轮的编码协议。
+name: generalist-code-flow
+description: Generalist 普通非 UI 实现、简单任务有限上下文确认、Review 修复轮的统一编码流程。
 ---
 
 # 目标

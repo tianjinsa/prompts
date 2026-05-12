@@ -1,5 +1,5 @@
 ---
-name: nexus-scheme-archive-protocol
+name: nexus-artifact-lifecycle-protocol
 description: 定义 `.Nexus` 中确认方案落盘、研究文档归档、实现文档归档与方案生命周期归档协议，避免不同 agent 归档职责冲突。
 ---
 
@@ -166,7 +166,7 @@ UI 方案属于功能级方案的一种。
   - `.Nexus/4-review/`
   - `.Nexus/3-implement/.old/`
   - 或新的活跃方案文档
-- `plan.md` 或 `.Nexus/.handoff/` 已记录状态变化
+- `plan.md` 已记录状态变化
 
 # 路径规则
 

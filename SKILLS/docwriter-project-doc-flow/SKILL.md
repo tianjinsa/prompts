@@ -1,6 +1,6 @@
 ---
-name: nexus-docwriter-project-docs-protocol
-description: 定义 DocWriter 在 Nexus 明确要求时更新 doc/、README.md 与任务完成阶段追加 CHANGELOG.md 的协议。
+name: docwriter-project-doc-flow
+description: DocWriter 在 Nexus 明确要求时更新 doc/、README.md 与任务完成阶段追加 CHANGELOG.md 的项目文档流程。
 ---
 
 # 目标
@@ -18,6 +18,8 @@ description: 定义 DocWriter 在 Nexus 明确要求时更新 doc/、README.md �
 - UI 源码
 - 测试
 - 配置
+- `.Nexus/3-implement/.old/`
+- `.Nexus/4-review/.old/`
 
 # 启用条件
 

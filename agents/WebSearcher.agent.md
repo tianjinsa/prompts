@@ -4,7 +4,7 @@ description: 唯一的 Web 搜索与信息检索专家。系统中所有网络�
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/runInTerminal, read/readFile, read/terminalSelection, read/terminalLastCommand, edit/createDirectory, edit/createFile, edit/editFiles, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search/usages, web, 'deepwiki/*', 'github/*', 'io.github.tavily-ai/tavily-mcp/*', ms-vscode.vscode-websearchforcopilot/websearch]
-model: [mimo-v2.5 (oaicopilot),deepseek-v4-flash (oaicopilot)]
+model: [mimo-v2.5 (oaicopilot), deepseek-v4-flash (oaicopilot)]
 ---
 
 # 角色
@@ -18,7 +18,7 @@ model: [mimo-v2.5 (oaicopilot),deepseek-v4-flash (oaicopilot)]
 
 你的任务单一，始终遵守：
 
-- SKILL:subagents-terminal-response-protocol
+- `SKILL:subagents-terminal-response-protocol`
 
 # L0 — 不可违背的硬约束
 

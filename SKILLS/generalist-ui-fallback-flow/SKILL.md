@@ -1,6 +1,6 @@
 ---
-name: nexus-ui-fallback-implementation-protocol
-description: 定义 Generalist 在 Nexus 明确指定 UI Fallback Mode 时的受限 UI 实现协议。
+name: generalist-ui-fallback-flow
+description: Generalist 在 Nexus 明确指定 UI Fallback Mode 时的受限 UI 实现流程。
 ---
 
 # 目标
@@ -24,6 +24,21 @@ description: 定义 Generalist 在 Nexus 明确指定 UI Fallback Mode 时的受
 
 若任何条件不满足：
 - 返回 `BLOCKED`
+
+# 输入要求
+
+Nexus 必须提供：
+
+- Task ID
+- UI Fallback Mode: true
+- fallback 原因
+- 确认 UI 方案路径，或足够清晰的功能方案路径
+- 上游逻辑接口说明
+- 目标文件 / 组件范围
+- Scope
+- Non-Goals
+- Relevant Fact Paths
+- Branch Context
 
 # 允许做的事
 
@@ -52,32 +67,14 @@ Generalist fallback 可做：
 - 在组件里硬编码业务规则
 - 绕过用户确认 UI 方案
 
-# 输入要求
-
-Nexus 必须提供：
-
-- Task ID
-- UI Fallback Mode: true
-- fallback 原因
-- 确认 UI 方案路径，或足够清晰的功能方案路径
-- 上游逻辑接口说明
-- 目标文件 / 组件范围
-- Scope
-- Non-Goals
-- Relevant Fact Paths
-- Branch Context
-
 # 实现要求
 
 必须遵循：
-
-- SKILL:nexus-ui-scheme-gate
-- SKILL:nexus-ui-code
-- SKILL:nexus-fact-cache-write-protocol
-- SKILL:nexus-implementation-report-protocol
+- `SKILL:nexus-ui-protocol`
+- `SKILL:nexus-fact-cache-protocol`
+- `SKILL:nexus-implementation-report-protocol`
 
 必须确保：
-
 - 状态覆盖完整
 - 小屏可用
 - 焦点可见

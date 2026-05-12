@@ -23,6 +23,7 @@ description: 定义 `.Nexus/3-implement/` 中实现情况文档的编写协议�
 
 - `Generalist`
 - `UI_Coder`
+- `Reviewer` {读取并校验}
 
 # 一条功能 / 一步实现，只维护一个实现文档
 
@@ -48,6 +49,8 @@ description: 定义 `.Nexus/3-implement/` 中实现情况文档的编写协议�
 - `.Nexus/3-implement/.old/`
 
 实现者不得自行归档实现文档。
+
+DocWriter 不归档实现文档。
 
 # 文档头
 
@@ -118,7 +121,6 @@ manual_test_required: [true / false]
 - Notes
 
 若无新增接口，写：
-
 - None
 
 ## Changed Interfaces
@@ -131,7 +133,6 @@ manual_test_required: [true / false]
 - Consumer Impact
 
 若无变更，写：
-
 - None
 
 ## New External Fields
@@ -144,7 +145,6 @@ manual_test_required: [true / false]
 - Consumer
 
 若无新增字段，写：
-
 - None
 
 ## Changed External Fields
@@ -157,7 +157,6 @@ manual_test_required: [true / false]
 - Consumer Impact
 
 若无变更，写：
-
 - None
 
 ## Logic Summary

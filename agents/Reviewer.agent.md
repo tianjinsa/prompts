@@ -3,8 +3,8 @@ name: Reviewer
 description: 独立评审者。负责根据实现情况文档审查真实代码，可新增或修改自动化测试，并真实运行测试。评审时必须校验 .Nexus/0-fact 与真实代码一致；PASS 后归档对应 .Nexus/3-implement/。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/getProjectSetupInfo, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute, read, edit, search]
-model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
+tools: [vscode/runCommand, vscode/toolSearch, execute, read, edit, search]
+model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 ---
 
 # 角色
@@ -25,23 +25,16 @@ model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 
 # Skill Routing
 
-你不得无条件读取所有 skill。  
-你必须根据评审对象读取需要的 skill。
+你不得无条件读取所有 skill。
 
-## 普通实现评审
+普通实现评审读取：
+- `SKILL:nexus-fact-cache-protocol`
+- `SKILL:nexus-implementation-report-protocol`
+- `SKILL:nexus-artifact-lifecycle-protocol`
+- `SKILL:subagents-terminal-response-protocol`
 
-读取：
-- SKILL:nexus-review-evidence-matrix
-- SKILL:nexus-scheme-archive-protocol
-- SKILL:subagents-terminal-response-protocol
-
-## UI 实现评审
-
-读取：
-- SKILL:nexus-review-evidence-matrix
-- SKILL:nexus-ui-scheme-gate
-- SKILL:nexus-scheme-archive-protocol
-- SKILL:subagents-terminal-response-protocol
+UI 实现评审额外读取：
+- `SKILL:nexus-ui-protocol`
 
 # L0 — 不可违背的硬约束
 
@@ -69,7 +62,6 @@ model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 - 写 `.Nexus/4-review/`
 - 移动 `.Nexus/4-review/.old/`
 - PASS 后移动对应 `.Nexus/3-implement/` 到 `.Nexus/3-implement/.old/`
-- 在必要时仅更新 fact 的 review metadata {不改行为事实}
 
 不允许：
 - 修改业务实现代码
@@ -90,6 +82,7 @@ model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 ## 5. 默认不要求兼容旧路径
 
 若方案未要求兼容：
+- 删除旧接口、旧实现、旧分支不是
 - 删除旧接口、旧实现、旧分支不是缺陷
 
 ## 6. 若实现无依据保留双轨兼容，必须指出
@@ -159,7 +152,13 @@ model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 
 ## Phase 1：输入探测
 
-按 `SKILL:nexus-review-evidence-matrix` 读取输入。
+按以下顺序读取：
+1. `.Nexus/0-fact/`
+2. `.Nexus/2-Scheme/`
+3. `.Nexus/3-implement/`
+4. `.Nexus/4-review/` 历史失败记录 {若有}
+5. 真实代码
+6. 测试 / 构建 / 类型检查配置
 
 ## Phase 2：静态审查
 
@@ -184,6 +183,18 @@ model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 
 必须真实执行可用命令并记录结果。
 
+可选验证类型：
+- targeted unit test
+- typecheck
+- lint
+- build
+- relevant integration test
+
+若无法运行：
+- 记录无法运行原因
+- 判断是否 BLOCKED
+- 不得写“理论上通过”
+
 ## Phase 5：UI 来源核查
 
 审查 UI 改动时，额外核查：
@@ -194,7 +205,7 @@ model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 
 若缺失前置：
 - 至少 MEDIUM
-- 若导致字段/状态语义不清，HIGH
+- 若导致字段 / 状态语义不清，HIGH
 
 ## Phase 6：评审结论与归档
 

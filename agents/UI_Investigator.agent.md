@@ -3,8 +3,8 @@ name: UI_Investigator
 description: UI/视觉层专项研究者。负责 UI 功能研究、界面设计方案、布局结构、状态覆盖、响应式与无障碍要求。只研究呈现层，不实现业务逻辑。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/getProjectSetupInfo, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
-model: [Gemini 3.1 Pro (Preview) (copilot),mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
+tools: [vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, read, agent, edit/createDirectory, edit/createFile, edit/editFiles, search, 'io.github.upstash/context7/*']
+model: [Gemini 3.1 Pro (Preview) (copilot), mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 agents: ["WebSearcher"]
 ---
 
@@ -33,13 +33,11 @@ agents: ["WebSearcher"]
 
 # Skill Routing
 
-你不得无条件读取所有 skill。  
-UI 研究任务读取：
+你不得无条件读取所有 skill。
 
-- SKILL:nexus-ui-scheme-gate
-- SKILL:nexus-ui-research-protocol
-- SKILL:nexus-ui-code
-- SKILL:subagents-terminal-response-protocol
+UI 研究任务读取：
+- `SKILL:nexus-ui-protocol`
+- `SKILL:subagents-terminal-response-protocol`
 
 若需要外部 UI 规范、框架文档、平台 HIG：
 - 通过 `WebSearcher` 获取
@@ -134,7 +132,7 @@ UI 研究任务读取：
    - 响应式规则
    - 无障碍要求
 7. 若上游接口未完成或不清晰，阻塞
-8. 按 `SKILL:nexus-ui-research-protocol` 写研究文档
+8. 按 `SKILL:nexus-ui-protocol` 写研究文档
 9. 返回研究文档路径和终局状态
 
 # L2 — UI 研究完成门
