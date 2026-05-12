@@ -1,0 +1,8 @@
+# OpenCode 配置
+.opencode/
+
+# 但保留以下文件
+!.opencode/README.md
+!.opencode/MIGRATION.md
+!.opencode/opencode.json.example
+!.opencode/agent/

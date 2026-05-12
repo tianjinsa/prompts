@@ -1,7 +1,12 @@
 # Nexus
 
-> 一个面向 GitHub Copilot 的多 Agent 开发编排系统。
+> 一个面向 GitHub Copilot 和 OpenCode 的多 Agent 开发编排系统。
 > 目标是：**把长任务拆小、把复杂问题分层、把研究与实现分开，从而降低上下文负担并提高实现质量。**
+
+## 支持平台
+
+- **GitHub Copilot** — VS Code / JetBrains 等 IDE
+- **OpenCode** — 命令行 AI 编码工具
 
 ## 为什么做这个
 
@@ -24,29 +29,110 @@ Nexus 的核心思路很简单：
 
 ## 安装
 
-### 1. 安装文件
+### 方式一：GitHub Copilot（VS Code / JetBrains）
 
-将 `skills`与 `agents` 文件夹放到以下目录，若不存在请自行创建：
+#### 1. 安装文件
 
-windows 系统：
+将 `skills` 与 `agents` 文件夹放到以下目录，若不存在请自行创建：
+
+**Windows 系统：**
 ```windows
 %USERPROFILE%\.copilot
 ```
+
+**macOS / Linux 系统：**
+```bash
+~/.copilot
+```
+
 其他系统请查看 GitHub Copilot 官方文档，找到对应的用户配置目录。
 
-### 2. 配置各 Agent 的使用模型
+#### 2. 配置各 Agent 的使用模型
+
 在每个 agent 的文件头配置中，设置 `model` 字段，例如：
 
 ```text
 model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
 ```
-github copilot 会按顺序尝试使用列表中的模型，直到成功为止。你可以根据需要调整模型的优先级和组合。
 
-选择的模型都需要在模型管理页面中启用
+GitHub Copilot 会按顺序尝试使用列表中的模型，直到成功为止。你可以根据需要调整模型的优先级和组合。
 
-### 3. 可选：配置第三方模型
+选择的模型都需要在模型管理页面中启用。
+
+#### 3. 可选：配置第三方模型
 
 GitHub Copilot 可通过插件 **OAI Compatible Provider for Copilot** 配置第三方模型。
+
+---
+
+### 方式二：OpenCode（命令行）
+
+#### 1. 安装 OpenCode
+
+```bash
+# 使用 npm 安装
+npm install -g opencode
+
+# 或使用 homebrew (macOS)
+brew install opencode
+```
+
+#### 2. 安装 Agent 与 Skill 文件
+
+将 `agent/` 和 `skills/` 文件夹放到以下任一位置：
+
+**全局安装（推荐）：**
+
+```bash
+# Windows
+%USERPROFILE%\.opencode\   ← 放 skills/ 与 .opencode/agent 文件夹
+
+# macOS / Linux
+~/.opencode/
+```
+
+**项目级安装：**
+
+```bash
+# 在项目根目录下
+.opencode/              ← 放 skills/ 与 .opencode/agent 文件夹
+```
+
+> 全局安装后所有项目都可使用 Nexus；项目级安装则只在该项目中生效。
+
+#### 3. 配置模型（可选）
+
+在 `opencode.json` 中配置模型：
+
+```json
+{
+  "agent": {
+    "Nexus": {
+      "description": "主编排器",
+      "mode": "primary",
+      "model": "copilot/gpt-4o"
+    }
+  }
+}
+```
+
+或者使用提供的示例配置：
+
+```bash
+cp .opencode/opencode.json.example opencode.json
+```
+
+#### 4. 使用方式
+
+```bash
+# 在项目目录启动 OpenCode
+opencode
+
+# 调用 Nexus agent
+@Nexus 帮我实现一个用户认证功能
+```
+
+详细的迁移说明请参考 [`.opencode/MIGRATION.md`](.opencode/MIGRATION.md)。
 
 ---
 
@@ -151,6 +237,8 @@ Nexus
 
 ## 使用方式
 
+### GitHub Copilot
+
 安装完成后，在 Copilot 的模式选择中选中：
 
 `Nexus`
@@ -164,11 +252,52 @@ Nexus
 
 如果任务比较复杂，Nexus 会先进入研究和拆解阶段，而不是直接让实现 Agent 一口气完成全部内容。
 
+### OpenCode
+
+在项目目录启动 OpenCode：
+
+```bash
+opencode
+```
+
+然后使用 `@Nexus` 调用主编排器：
+
+```bash
+@Nexus 帮我实现一个用户认证功能
+@Nexus 继续上次未完成的任务
+@Nexus 修复这个 bug
+```
+
+OpenCode 版本的 Nexus 会自动协调其他 agent 完成任务，工作流程与 GitHub Copilot 版本一致。
+
 ---
 
 ## 目录结构
 
 ```text
+# GitHub Copilot 配置
+agents/
+  Nexus.agent.md
+  Generalist.agent.md
+  Investigator.agent.md
+  ...
+
+skills/
+  nexus-ui-protocol/
+  nexus-artifact-lifecycle-protocol/
+  ...
+
+# OpenCode 配置
+.opencode/
+  agent/
+    Nexus.md
+    Generalist.md
+    Investigator.md
+    ...
+  opencode.json.example
+  MIGRATION.md
+
+# 运行时数据（自动生成）
 .Nexus/
   plan.md
   0-fact/
@@ -182,14 +311,20 @@ Nexus
 
 ### 说明
 
-- `plan.md` - 当前任务状态、阶段和恢复点
-- `0-fact/` - 当前代码事实缓存，减少重复读源码
-- `1-research/` - 研究文档
-- `2-Scheme/` - 已确认方案与步骤拆分文档
-- `3-implement/` - 实现记录
-- `4-review/` - 评审记录
-- `.search-cache/` - 外部检索缓存
-- `.tool/` - 辅助脚本
+**配置文件：**
+- `agents/` — GitHub Copilot agent 配置
+- `.opencode/agent/` — OpenCode agent 配置
+- `skills/` — 共享的 skill 文件（两个平台通用）
+
+**运行时数据：**
+- `.Nexus/plan.md` — 当前任务状态、阶段和恢复点
+- `.Nexus/0-fact/` — 当前代码事实缓存，减少重复读源码
+- `.Nexus/1-research/` — 研究文档
+- `.Nexus/2-Scheme/` — 已确认方案与步骤拆分文档
+- `.Nexus/3-implement/` — 实现记录
+- `.Nexus/4-review/` — 评审记录
+- `.Nexus/.search-cache/` — 外部检索缓存
+- `.Nexus/.tool/` — 辅助脚本
 
 ---
 
@@ -250,7 +385,26 @@ Nexus
 
 ## 兼容性说明
 
-本项目面向 **GitHub Copilot** 的 Agent / Prompt 规范编写。
+本项目同时支持 **GitHub Copilot** 和 **OpenCode** 两个平台。
+
+### GitHub Copilot
+
+- 使用 `agents/` 目录下的 `.agent.md` 文件
+- 工具权限通过 `tools` 字段配置
+- 模型选择支持列表格式
+
+### OpenCode
+
+- 使用 `.opencode/agent/` 目录下的 `.md` 文件
+- 工具权限通过 `permission` 字段配置
+- 模型选择使用单个模型字符串
+
+### 迁移指南
+
+如需从 GitHub Copilot 迁移到 OpenCode，请参考 [`.opencode/MIGRATION.md`](.opencode/MIGRATION.md)。
+
+### 其他平台
+
 如果要迁移到其他 AI 开发工具，通常需要：
 
 - 替换工具名
@@ -461,4 +615,19 @@ Nexus 本质上是**一套围绕文档模板运转的工程协议层**：
 - **审阅协议** — 定义如何验证实现质量
 - **归档协议** — 定义文档何时、如何归档
 
-这使得 Nexus 不仅是“多 agent 编排”，更是一个**可验证、可恢复、可审计的结构化开发流程框架**。
+这使得 Nexus 不仅是"多 agent 编排"，更是一个**可验证、可恢复、可审计的结构化开发流程框架**。
+
+---
+
+## 相关资源
+
+- [Nexus 项目主页](https://github.com/tianjinsa/Nexus)
+- [OpenCode 官方文档](https://opencode.ai/docs/)
+- [OpenCode Agent 文档](https://opencode.ai/docs/agents/)
+- [OpenCode 配置文档](https://opencode.ai/docs/config/)
+- [从 GitHub Copilot 迁移到 OpenCode](.opencode/MIGRATION.md)
+- [OpenCode Agent 配置说明](.opencode/README.md)
+
+## 许可证
+
+MIT License
