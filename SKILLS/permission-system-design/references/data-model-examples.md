@@ -1,7 +1,5 @@
 # 数据模型示例
-
 ## SQL（通用）
-
 ```sql
 -- 细分权限表
 CREATE TABLE permissions (
@@ -13,7 +11,6 @@ CREATE TABLE permissions (
     group_name  VARCHAR(50),                    -- 权限分组
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 -- 角色预设表
 CREATE TABLE role_presets (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -22,7 +19,6 @@ CREATE TABLE role_presets (
     is_system   BOOLEAN DEFAULT FALSE,         -- 系统预设不可删除
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 -- 角色预设-权限关联
 CREATE TABLE role_preset_permissions (
     role_preset_id BIGINT NOT NULL,
@@ -31,7 +27,6 @@ CREATE TABLE role_preset_permissions (
     FOREIGN KEY (role_preset_id) REFERENCES role_presets(id) ON DELETE CASCADE,
     FOREIGN KEY (permission_id)  REFERENCES permissions(id)  ON DELETE CASCADE
 );
-
 -- 用户-角色预设关联
 CREATE TABLE user_roles (
     user_id      BIGINT NOT NULL,
@@ -42,7 +37,6 @@ CREATE TABLE user_roles (
     PRIMARY KEY (user_id, role_preset_id),
     FOREIGN KEY (role_preset_id) REFERENCES role_presets(id)
 );
-
 -- 用户直接权限
 CREATE TABLE user_permissions (
     user_id       BIGINT NOT NULL,
@@ -55,7 +49,6 @@ CREATE TABLE user_permissions (
     PRIMARY KEY (user_id, permission_id),
     FOREIGN KEY (permission_id) REFERENCES permissions(id)
 );
-
 -- 权限审计日志
 CREATE TABLE permission_audit_logs (
     id          BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -65,16 +58,13 @@ CREATE TABLE permission_audit_logs (
     detail      JSON,                          -- 操作详情
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 -- 索引
 CREATE INDEX idx_user_roles_user ON user_roles(user_id);
 CREATE INDEX idx_user_perms_user ON user_permissions(user_id);
 CREATE INDEX idx_perms_resource ON permissions(resource, action);
 CREATE INDEX idx_audit_target ON permission_audit_logs(target_user_id, created_at);
 ```
-
 ## 用户最终权限合并算法
-
 ```sql
 -- 查询用户最终权限（合并视图）
 -- 逻辑：直接权限优先于角色预设权限，deny 覆盖 allow
@@ -95,9 +85,7 @@ LEFT JOIN user_roles ur ON ur.role_preset_id = rpp.role_preset_id AND ur.user_id
 WHERE up.id IS NOT NULL OR ur.id IS NOT NULL
 HAVING source != 'denied';  -- 排除显式拒绝
 ```
-
 ## MongoDB（文档型）
-
 ```js
 // 用户文档中的权限结构
 {
@@ -113,7 +101,6 @@ HAVING source != 'denied';  -- 排除显式拒绝
     { presetId: ObjectId("..."), name: "editor", assignedAt: new Date() }
   ]
 }
-
 // 角色预设文档
 {
   _id: ObjectId("..."),
