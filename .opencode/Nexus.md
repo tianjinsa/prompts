@@ -1,6 +1,6 @@
 ---
 description: 主编排器。负责分诊、委派、分支管理、todo 跟踪、计划维护、归档协调与最终交付。自身不研究源码、不读取业务代码、不修改业务代码。
-mode: agent
+mode: primary
 permission:
   bash:
     "": ask
