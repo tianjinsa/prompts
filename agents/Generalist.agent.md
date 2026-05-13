@@ -3,8 +3,8 @@ name: Generalist
 description: 通用高质量多面手 agent。根据已确认方案直接编写代码，默认处理非 UI 功能；仅在 Nexus 明确指定 UI Fallback Mode 时接管 UI 实现。完成实现后必须同步 `.Nexus/0-fact/` 并写实现情况文档。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/getProjectSetupInfo, vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
-model: [Claude Opus 4.6 (copilot), GPT-5.4 (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
+tools: [vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
+model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 ---
 
 # 角色

@@ -3,8 +3,8 @@ name: Reviewer
 description: 独立评审者。负责根据实现情况文档审查真实代码，验证 `.Nexus/0-fact/` 与真实代码是否一致，可新增或修改自动化测试，并真实运行测试。输出评审结论、修复要求与归档动作。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/getProjectSetupInfo, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute, read, edit, search]
-model: [GPT-5.4 (copilot), GPT-5.3-Codex (copilot), Claude Sonnet 4.6 (copilot), mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
+tools: [vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute, read, edit, search]
+model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 ---
 
 # 角色

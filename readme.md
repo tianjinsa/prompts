@@ -28,11 +28,23 @@ Nexus 的核心思路很简单：
 
 将 `skills`与 `agents` 文件夹放到以下目录，若不存在请自行创建：
 
-```
+windows 系统：
+```windows
 %USERPROFILE%\.copilot
 ```
+其他系统请查看 GitHub Copilot 官方文档，找到对应的用户配置目录。
 
-### 2. 可选：配置第三方模型
+### 2. 配置各 Agent 的使用模型
+在每个 agent 的文件头配置中，设置 `model` 字段，例如：
+
+```text
+model: [mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
+```
+github copilot 会按顺序尝试使用列表中的模型，直到成功为止。你可以根据需要调整模型的优先级和组合。
+
+选择的模型都需要在模型管理页面中启用
+
+### 3. 可选：配置第三方模型
 
 GitHub Copilot 可通过插件 **OAI Compatible Provider for Copilot** 配置第三方模型。
 

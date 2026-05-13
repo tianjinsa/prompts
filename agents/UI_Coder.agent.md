@@ -3,8 +3,8 @@ name: UI_Coder
 description: 高品质 UI 呈现层实现者。负责布局、样式、视觉层次、响应式、交互反馈与无障碍呈现。不负责业务逻辑实现。完成实现后必须同步相关 `.Nexus/0-fact/` 并写实现情况文档。
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/getProjectSetupInfo, vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
-model: [Claude Opus 4.6 (copilot), Claude Sonnet 4.6 (copilot), GPT-5.4 (copilot), mimo-v2.5 (oaicopilot), deepseek-v4-flash (oaicopilot)]
+tools: [vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
+model: [mimo-v2.5 (oaicopilot), deepseek-v4-flash (oaicopilot)]
 ---
 
 # 角色
