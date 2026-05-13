@@ -2,6 +2,7 @@
 name: nexus-fact-cache-comment-style
 description: 该 skill 定义了 `.Nexus/0-fact/` 代码事实缓存层的注释式编写风格和结构，以确保快速理解代码文件的职责、输入输出、流程和依赖，而不是逐行翻译源码。
 ---
+
 ## 目标
 
 `.Nexus/0-fact/` 是**代码事实缓存层**。
@@ -12,13 +13,17 @@ description: 该 skill 定义了 `.Nexus/0-fact/` 代码事实缓存层的注释
 - 快速理解字段语义与消费者
 - 用“注释式摘要”精炼信息，而不是逐行翻译源码
 
+当前流程中：
+- `Generalist` / `UI_Coder` 负责在实现完成后同步相关 fact
+- `Reviewer` 负责验证 fact 与真实代码是否一致
+
 ## 懒建立原则
 
 `0-fact` 采用懒建立：
 - 只为当前任务涉及的代码文件建立或更新 fact
 - 缺失 fact 不是 blocker
 - 若 fact 不存在，可先由有权限的 agent 读取真实代码完成任务
-- 任务闭环后由 `DocWriter` 补齐或更新 fact
+- 任务闭环中的当前轮 fact，应由实现者补齐或更新，并由 `Reviewer` 验证
 
 ## 文件映射规则
 
@@ -63,6 +68,7 @@ description: 该 skill 定义了 `.Nexus/0-fact/` 代码事实缓存层的注释
 - used_by:
 - cache_status:
 - last_synced_from:
+- last_synced_by:
 
 @imports
 - 只列关键依赖
@@ -131,9 +137,16 @@ description: 该 skill 定义了 `.Nexus/0-fact/` 代码事实缓存层的注释
 1. 对外入口
 2. 关键字段语义
 3. 核心流程
-4. 错误/空值/边界路径
+4. 错误 / 空值 / 边界路径
 5. 谁在调用它
 6. 当前任务造成的变化
+
+若是 UI 文件，额外优先记录：
+- loading / empty / error / disabled 等状态覆盖
+- 关键 props / state 语义
+- 响应式规则
+- 无障碍要点
+- 本轮删除或合并的旧 UI 入口
 
 ## 事实要求
 
@@ -141,3 +154,4 @@ description: 该 skill 定义了 `.Nexus/0-fact/` 代码事实缓存层的注释
 - 不根据命名猜测行为
 - 不能确认的内容用 TODO 标记
 - 若本次任务改变了类职责、字段语义或流程，应显式更新对应注释块
+- 若本次任务新增了对外接口、外部字段、状态语义或错误语义，必须在 fact 中体现

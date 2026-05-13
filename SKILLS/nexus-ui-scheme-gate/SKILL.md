@@ -2,6 +2,7 @@
 name: nexus-ui-scheme-gate
 description: 该 skill 定义了 UI 方案门禁协议，确保 UI 实现前有明确方案确认，防止无边界 UI 实现和流程违规。
 ---
+
 ## 目标
 
 该 skill 用于强制执行 UI 流程门禁，防止：
@@ -74,7 +75,7 @@ description: 该 skill 定义了 UI 方案门禁协议，确保 UI 实现前有�
 - UI 所需字段
 - UI 所需状态
 - UI 所需回调
-- 目标页面/组件范围
+- 目标页面 / 组件范围
 - 状态覆盖
 - 响应式规则
 - 无障碍要求
@@ -89,7 +90,7 @@ description: 该 skill 定义了 UI 方案门禁协议，确保 UI 实现前有�
 `UI_Coder` 仅在以下条件满足时可开工：
 - 确认 UI 方案存在
 - 上游逻辑接口已完成或已明确
-- 方案中的组件/文件目标可映射到实际工程
+- 方案中的组件 / 文件目标可映射到实际工程
 - 当前 scope 足以完成必要的 UI 收口
 
 否则必须：
@@ -103,7 +104,7 @@ description: 该 skill 定义了 UI 方案门禁协议，确保 UI 实现前有�
 - 是否存在对应确认 UI 方案文档
 - 该方案是否来自 `UI_Investigator`
 - 当前 UI 实现是否发生在上游逻辑完成之后
-- 是否存在字段/状态语义不清却强行实现的情况
+- 是否存在字段 / 状态语义不清却强行实现的情况
 
 若缺失上述前置：
 - 视为流程违规
@@ -112,16 +113,29 @@ description: 该 skill 定义了 UI 方案门禁协议，确保 UI 实现前有�
 
 ## UI Fallback
 
-若 `UI_Investigator` 或 `UI_Coder` 出现以下情况：
+若 `UI_Coder` 出现以下情况：
 - 工具失败
 - 调用错误
 - 两次 `AGENT_NO_RESPONSE`
 - 无法安全执行
 
 可回退到 `Generalist`，但仅在以下前提下：
-- 已存在足够清晰的功能方案，能约束 UI 范围
-- 或已存在确认后的 UI 方案
+- 已存在确认后的 UI 方案
+- UI 所需上游逻辑接口已完成
+- `Nexus` 显式开启 `UI Fallback Mode`
+
+若 `UI_Investigator` 出现以下情况：
+- 工具失败
+- 调用错误
+- 两次 `AGENT_NO_RESPONSE`
+- 无法安全执行
+
+仅在以下前提下，才可回退到 `Generalist`：
+- 已存在足够清晰的功能方案，能明确约束 UI 范围
+- 目标组件 / 页面边界明确
+- 所需字段、状态、错误语义明确
+- `Nexus` 显式开启 `UI Fallback Mode`
 
 若连最小 UI 方案边界都不存在：
 - 不得让 `Generalist` 凭空设计 UI
-- 应先由 `Investigator` 输出最小 UI 边界说明，再由 `Generalist` 实现
+- 应先补齐研究，或请求用户介入

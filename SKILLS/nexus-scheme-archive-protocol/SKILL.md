@@ -2,6 +2,7 @@
 name: nexus-scheme-archive-protocol
 description: 该 skill 定义了 `.Nexus` 文档的归档协议，以确保不同类型的文档在完成职责后有统一、明确的归档路径和时机，避免文档混乱和滞留。
 ---
+
 ## 目标
 
 该 skill 用于统一 `.Nexus` 文档的归档行为，避免：
@@ -41,6 +42,19 @@ description: 该 skill 定义了 `.Nexus` 文档的归档协议，以确保不�
 2. 归档路径统一为对应目录下的 `.old/`
 3. 归档动作应发生在**当前文档已完成其职责**之后
 4. 若归档失败，必须返回终局状态，不得静默跳过
+5. 当前仍作为活跃 canonical 输入的文档不得提前归档
+
+## 归档职责总表
+
+- `.Nexus/1-research/.old/`
+	- 负责人：`DocWriter`
+- `.Nexus/2-Scheme/.old/`
+	- 归档时机负责人：`Nexus`
+	- 执行动作可委派给：`DocWriter`
+- `.Nexus/3-implement/.old/`
+	- 负责人：`Reviewer`
+- `.Nexus/4-review/.old/`
+	- 负责人：`Reviewer`
 
 ## `DocWriter` 的归档职责
 
@@ -52,16 +66,13 @@ description: 该 skill 定义了 `.Nexus` 文档的归档协议，以确保不�
 适用：
 - 架构级方案
 - 功能级预研方案
-- UI 预研/设计方案 {在其被确认并落盘后}
+- UI 预研 / 设计方案 {在其被确认并落盘后}
 
-### 实现文档归档
-当实现文档已经完成其职责，且对应 `.Nexus/0-fact` 已同步完成后：
-- `DocWriter` 必须将对应实现文档移动到：
-	- `.Nexus/3-implement/.old/`
-
-对 `Generalist` 链路：
-- 简单任务：在实现完成并完成 `0-fact` 同步后归档
-- 非简单任务：在 `Reviewer PASS` 且完成 `0-fact` 同步后归档
+### 被 `Nexus` 委派的 scheme 归档
+当 `Nexus` 明确委派归档 `.Nexus/2-Scheme/` 文档时：
+- `DocWriter` 才可以将指定 scheme 文档移动到：
+	- `.Nexus/2-Scheme/.old/`
+- `DocWriter` 不得自行判断归档时机并擅自移动活跃 scheme
 
 ## `Reviewer` 的归档职责
 
@@ -70,39 +81,45 @@ description: 该 skill 定义了 `.Nexus` 文档的归档协议，以确保不�
 - `Reviewer` 应将旧评审文档移动到：
 	- `.Nexus/4-review/.old/`
 
-### 功能级方案文档自动归档
-当某个功能级实现通过评审 `PASS` 后：
-- `Reviewer` 必须自动将对应的**功能级 `.Nexus/2-Scheme/` 文档**移动到：
-	- `.Nexus/2-Scheme/.old/`
-- 不需要 `Nexus` 额外发出归档命令
+### 实现文档归档
+当当前轮实现已通过评审 `PASS`：
+- `Reviewer` 必须将对应当前实现文档移动到：
+	- `.Nexus/3-implement/.old/`
 
 注意：
-- 这里只自动归档**功能级方案文档**
-- 不归档架构级方案文档
-- 不归档复杂功能的步骤文档
+- `FAIL` 或 `BLOCKED` 时不归档实现文档
+- 修复轮应继续更新同一份活跃实现文档
+- `Reviewer` 不负责自动归档 `.Nexus/2-Scheme/`
 
 ## `Nexus` 的归档职责
 
 ### 架构级方案文档
 当整个任务的架构级方案已完成其职责，且任务进入后续稳定执行阶段后：
-- `Nexus` 负责将对应架构级 `.Nexus/2-Scheme/` 文档移动到：
+- `Nexus` 负责决定是否将对应架构级 `.Nexus/2-Scheme/` 文档移动到：
 	- `.Nexus/2-Scheme/.old/`
+- 若需要执行动作，可委派 `DocWriter`
+
+### 功能级方案文档
+当功能级方案已不再作为当前活跃输入，且后续步骤不再依赖它时：
+- `Nexus` 负责决定是否归档
+- 若需要执行动作，可委派 `DocWriter`
 
 ### 步骤文档
 对于复杂功能的步骤文档：
 - 不在某一步单独 PASS 时归档
 - 而是在**整个功能全部步骤完成后**
-- 由 `Nexus` 统一移动到：
-	- `.Nexus/2-Scheme/.old/`
+- 由 `Nexus` 统一决定归档
+- 执行动作可委派 `DocWriter`
 
 ## UI 方案归档建议
 
 UI 方案属于功能级方案的一种。
-若该 UI 方案对应的是单独功能级 UI 模块，并在该模块评审 `PASS` 后闭环：
-- 可由 `Reviewer` 按功能级方案规则归档
-
-若 UI 方案依附于复杂步骤链并且仍需被后续步骤引用：
-- 则应延后，由 `Nexus` 在整个功能完成后统一归档
+归档规则与其他 `.Nexus/2-Scheme/` 文档一致：
+- 若后续步骤仍会引用：
+	- 不归档
+- 若 UI 模块已闭环，且后续不再需要作为活跃输入：
+	- 由 `Nexus` 决定归档
+	- 可委派 `DocWriter` 执行
 
 ## 归档前提
 
@@ -112,7 +129,8 @@ UI 方案属于功能级方案的一种。
 - 下游所需信息已转移到：
 	- `.Nexus/2-Scheme/`
 	- `.Nexus/0-fact/`
-	- 或新的活跃实现/评审文档
+	- 活跃实现 / 评审文档
+	- 或用户已完成必要确认
 
 ## 归档失败处理
 

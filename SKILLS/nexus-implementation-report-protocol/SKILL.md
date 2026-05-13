@@ -1,19 +1,23 @@
 ---
 name: nexus-implementation-report-protocol
-description: 该 skill 定义了 `.Nexus/3-implement/` 中实现情况文档的编写协议，以确保每条功能/每步实现都有清晰、结构化、事实性的记录，方便 Reviewer 理解和 DocWriter 更新 fact。
+description: 该 skill 定义了 `.Nexus/3-implement/` 中实现情况文档的编写协议，以确保每条功能 / 每步实现都有清晰、结构化、事实性的记录，方便 Reviewer 验证代码与 fact，并让后续文档流程快速消费。
 ---
+
 ## 目标
 
 `.Nexus/3-implement/` 中的实现情况文档不是流水账。
 它的目标是：
 - 让 `Reviewer` 无需重新推测实现意图
-- 让 `DocWriter` 能据此更新 `.Nexus/0-fact/`
+- 让 `Reviewer` 能快速核对代码与 `.Nexus/0-fact/`
 - 让后续 agent 快速理解：
 	- 改了什么
 	- 为什么改
 	- 新接口是什么
 	- 新字段是什么
 	- 大致流程如何变化
+	- 哪些 fact 已被同步
+
+它也可为后续 `DocWriter` 更新 `doc/`、`README.md`、`CHANGELOG.md` 提供来源，但**不再承担“交给 DocWriter 更新 fact”的职责**。
 
 ## 适用对象
 
@@ -26,7 +30,7 @@ description: 该 skill 定义了 `.Nexus/3-implement/` 中实现情况文档的�
 - 初次实现时创建文档
 - review 修复轮时更新原文档
 - 不新建第二份实现文档
-- 保持该文档成为当前功能/步骤的 canonical 实现记录
+- 保持该文档成为当前功能 / 步骤的 canonical 实现记录
 
 ## 路径建议
 
@@ -54,6 +58,12 @@ reports_consumed:
 	- [.Nexus/0-fact/...]
 acceptance_coverage: [FULL / PARTIAL]
 manual_test_required: false
+fact_updated: [true / false]
+fact_paths:
+	- [.Nexus/0-fact/... or none]
+fact_sync_scope: [FULL / PARTIAL / NONE]
+ui_fallback_mode: [true / false]
+manual_ui_review_required: [true / false]
 -->
 
 ## 通用正文结构
@@ -68,6 +78,7 @@ manual_test_required: false
 - Scope
 - Scheme Used
 - Step Context {若适用}
+- UI Fallback Mode {true / false}
 
 ## Fact Inputs
 - 使用了哪些 `.Nexus/0-fact/`
@@ -76,6 +87,21 @@ manual_test_required: false
 ## Files Modified
 - `path` — 修改目的
 - `path` — 修改目的
+
+## Fact Sync
+- Fact Updated: Yes / No
+- Fact Paths
+- Fact Sync Scope: FULL / PARTIAL / NONE
+- Fact Summary
+- Known Fact Gaps
+- Why Any Gap Exists
+
+## Fact Coverage Matrix
+- Code File:
+	- Changed: Yes / No
+	- Fact File:
+	- Fact Updated: Yes / No
+	- Notes:
 
 ## New Interfaces
 - Name
@@ -100,7 +126,7 @@ manual_test_required: false
 - 分支逻辑
 - 错误路径
 - 边界处理
-- 删除/收口的旧路径
+- 删除 / 收口的旧路径
 
 ## Behavior Summary
 - 最终功能行为
@@ -121,6 +147,18 @@ manual_test_required: false
 
 ## Reviewer Focus
 - 建议重点检查点
+- 建议重点核对的 fact
+
+## Doc Impact
+- None / Needed / User Requested / Unsure
+- Suggested Doc Paths
+- Notes
+
+## CHANGELOG Candidate
+- User-visible Change
+- Internal-only Change
+- Breaking Change: Yes / No
+- Suggested Summary Line
 
 ## Follow-up
 - None
@@ -128,7 +166,7 @@ manual_test_required: false
 
 ## UI 实现的扩展要求
 
-若实现者是 `UI_Coder`，需在通用结构基础上补充或替换为以下 UI 相关内容：
+若实现者是 `UI_Coder`，或 `Generalist` 处于 `UI Fallback Mode`，需在通用结构基础上补充或替换为以下 UI 相关内容：
 
 ## Logic Interfaces Consumed
 - Interface Name
@@ -143,13 +181,13 @@ manual_test_required: false
 - Source Owner
 - Meaning
 - Nullable: Yes / No
-- Empty/Null Fallback
+- Empty / Null Fallback
 - Used In
 
 ## UI Structure Summary
-- 页面/组件层级
+- 页面 / 组件层级
 - 主要分区
-- 合并/删除的旧区块
+- 合并 / 删除的旧区块
 - 复用的基础组件
 
 ## Visual State Coverage
@@ -159,7 +197,7 @@ manual_test_required: false
 - disabled:
 - success:
 - retry:
-- null/undefined fallback:
+- null / undefined fallback:
 
 ## Responsive & Accessibility
 - small screen rules
@@ -169,7 +207,7 @@ manual_test_required: false
 - no layout shift strategy
 
 ## Legacy UI Cleanup
-- 删除/合并了哪些旧组件、旧 props、旧样式入口
+- 删除 / 合并了哪些旧组件、旧 props、旧样式入口
 - 若仍保留，为什么
 
 ## Manual Visual Review Needed
@@ -181,6 +219,8 @@ manual_test_required: false
 实现文档必须能回答：
 - 改了哪些文件？
 - 每个文件改什么？
+- 更新了哪些 fact？
+- 哪些代码文件尚未完成 fact 同步？
 - 新增了哪些对外接口？
 - 新增了哪些外部字段？
 - 字段语义是否变化？
