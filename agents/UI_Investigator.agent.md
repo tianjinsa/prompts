@@ -88,10 +88,13 @@ SKILL:nexus-ui-scheme-gate
 - 帮用户理解取舍
 
 ### 2. UI 设计方案
-需遵从SKILL:design-ui中定义的设计原则，且必须明确：
+需遵从 `SKILL:design-ui` 中定义的设计原则，且必须明确：
 - 目标组件或页面范围
 - 供用户确认后落盘到 `.Nexus/2-Scheme/`
 - 供 `UI_Coder` 实施
+- 明确写出 Visual Acceptance Contract
+- 明确写出 Stop Conditions for UI_Coder
+- 明确写出用户手动确认点
 
 ## L2 — 工作流
 
@@ -171,6 +174,7 @@ manual_test_required: false
 - Visual Acceptance Contract
 - Legacy UI Cleanup Direction
 - Stop Conditions for UI_Coder
+- Manual Confirmation Points
 
 ## L6 — 返回前自检
 
