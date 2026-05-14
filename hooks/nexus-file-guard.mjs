@@ -43,12 +43,12 @@ function deny(reason, additionalContext = reason) {
  * 放行本次工具调用
  * @param {string} additionalContext 放行时提供给模型的额外上下文
  */
-function allow(additionalContext = `路径检查通过：${toolName}`) {
+function allow(permissionDecisionReason = `路径检查通过：${toolName}`) {
 	process.stdout.write(JSON.stringify({
 		hookSpecificOutput: {
 			hookEventName: "PreToolUse",
 			permissionDecision: "allow",
-			additionalContext
+			permissionDecisionReason: permissionDecisionReason,
 		}
 	}));
 	process.exit(0);
