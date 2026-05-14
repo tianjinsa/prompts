@@ -1,0 +1,12 @@
+{
+	"hooks": {
+		"UserPromptSubmit": [
+			{
+				"type": "command",
+				"command": "node -e \"process.stdout.write(JSON.stringify({systemMessage:'你必须遵守系统提示词的流程'}))\"",
+				"windows": "node -e \"process.stdout.write(JSON.stringify({systemMessage:'你必须遵守系统提示词的流程'}))\"",
+				"timeout": 5
+			}
+		]
+	}
+}
