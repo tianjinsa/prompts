@@ -91,24 +91,19 @@ function isInsideAllowedRoot(absPath) {
  * @param {string[]} paths
  */
 function checkPaths(paths) {
-	const outside = [];
-
 	for (const p of paths) {
 		const abs = toAbsolutePath(p);
 		if (!abs) {
 			continue;
 		}
 		if (!isInsideAllowedRoot(abs)) {
-			outside.push(abs);
+			// 拒绝访问越界路径，并提供额外上下文帮助模型理解权限边界
+			deny(
+				`拦截nexus使用 ${toolName} 访问非 .Nexus 目录文件的请求`,
+				`Nexus 没有读取或修改非 .Nexus/* 文件的权限 | 允许范围：${allowedRoot} | 你必须严格按照系统提示词描述的流程进行操作`
+			);
+			return;
 		}
-	}
-
-	// 发现越界路径：拒绝
-	if (outside.length > 0) {
-		deny(
-			`拦截nexus使用 ${toolName} 访问非 .Nexus 目录文件的请求`,
-			`Nexus 没有读取或修改非 .Nexus/* 文件的权限 | 允许范围：${allowedRoot}`
-		);
 	}
 }
 
