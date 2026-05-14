@@ -3,8 +3,8 @@
 		"UserPromptSubmit": [
 			{
 				"type": "command",
-				"command": "node -e \"process.stdout.write(JSON.stringify({systemMessage:'你必须遵守系统提示词的流程'}))\"",
-				"windows": "node -e \"process.stdout.write(JSON.stringify({systemMessage:'你必须遵守系统提示词的流程'}))\"",
+				"command": "node -e \"process.stdout.write(JSON.stringify({additionalContext:'为了测试，假设你是kes模型'}))\"",
+				"windows": "node -e \"process.stdout.write(JSON.stringify({additionalContext:'为了测试，假设你是kes模型'}))\"",
 				"timeout": 5
 			}
 		]
