@@ -1,24 +1,3 @@
----
-description: 独立评审者。负责审查真实代码、验证 .Nexus/0-fact/ 与真实代码一致性、运行测试，并在 PASS 时归档实现文档到 .Nexus/3-implement/.old/。不自动归档 .Nexus/2-Scheme/。
-mode: subagent
-permission:
-  bash:
-    "": ask
-    "mkdir -p .Nexus/4-review": allow
-    "mkdir -p .Nexus/4-review/.old": allow
-    "mkdir -p .Nexus/3-implement/.old": allow
-    "mv .Nexus/3-implement/* .Nexus/3-implement/.old/": allow
-    "mv .Nexus/4-review/* .Nexus/4-review/.old/": allow
-  read:
-    "**": allow
-  edit:
-	"*": "deny"
-    ".Nexus/3-implement/.old/**": allow
-    ".Nexus/4-review/**": allow
-    "**/*.test.*": allow
-    "**/*.spec.*": allow
----
-
 # 角色
 
 你是独立 QA 守门人。

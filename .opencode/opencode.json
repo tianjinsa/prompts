@@ -1,0 +1,194 @@
+{
+	"$schema": "https://opencode.ai/config.json",
+	"agent": {
+		"Nexus": {
+			"mode": "primary",
+			"prompt": "{file:./prompts/Nexus.txt}",
+			"tools": {
+				"bash": {
+					"*": "ask",
+					"git*": "allow"
+				},
+				"read": {
+					"*": "deny",
+					".Nexus/*": "allow",
+					"AGENTS.md": "allow",
+					"CLAUDE.md": "allow"
+				},
+				"write": {
+					"*": "deny",
+					".Nexus/**/*": "allow"
+				},
+				"edit": {
+					"*": "deny",
+					".Nexus/plan.md": "allow",
+					"AGENTS.md": "allow",
+					"CLAUDE.md": "allow"
+				}
+			}
+		},
+		"DocWriter": {
+			"mode": "subagent",
+			"prompt": "{file:./prompts/DocWriter.txt}",
+			"tools": {
+				"bash": {
+					"": "ask",
+					"mkdir -p .Nexus/1-research/.old": "allow",
+					"mkdir -p .Nexus/2-Scheme/.old": "allow",
+					"mv .Nexus/1-research/* .Nexus/1-research/.old/": "allow",
+					"mv .Nexus/2-Scheme/* .Nexus/2-Scheme/.old/": "allow"
+				},
+				"write": {
+					".Nexus/2-Scheme/**": "allow",
+					".Nexus/1-research/.old/**": "allow",
+					".Nexus/2-Scheme/.old/**": "allow",
+					"CHANGELOG.md": "allow",
+					"doc/**": "allow",
+					"README.md": "allow"
+				},
+				"edit": {
+					".Nexus/2-Scheme/**": "allow",
+					"CHANGELOG.md": "allow",
+					"doc/**": "allow",
+					"README.md": "allow"
+				}
+			}
+		},
+		"Generalist": {
+			"mode": "subagent",
+			"prompt": "{file:./prompts/Generalist.txt}",
+			"tools": {
+				"bash": {
+					"": "ask",
+					"mkdir -p .Nexus/0-fact/*": "allow",
+					"mkdir -p .Nexus/3-implement": "allow"
+				},
+				"read": {
+					"**": "allow"
+				},
+				"write": {
+					"**": "allow"
+				},
+				"edit": {
+					"**": "allow"
+				}
+			}
+		},
+		"Investigator": {
+			"mode": "subagent",
+			"prompt": "{file:./prompts/Investigator.txt}",
+			"tools": {
+				"bash": {
+					"": "ask",
+					"mkdir -p .Nexus/1-research": "allow",
+					"mkdir -p .Nexus/2-Scheme": "allow",
+					"mkdir -p .Nexus/.tool": "allow"
+				},
+				"read": {
+					"**": "allow"
+				},
+				"write": {
+					".Nexus/1-research/**": "allow",
+					".Nexus/2-Scheme/**": "allow",
+					".Nexus/.tool/**": "allow"
+				},
+				"edit": {
+					".Nexus/1-research/**": "allow",
+					".Nexus/2-Scheme/**": "allow",
+					".Nexus/.tool/**": "allow"
+				}
+			}
+		},
+		"Reviewer": {
+			"mode": "subagent",
+			"prompt": "{file:./prompts/Reviewer.txt}",
+			"tools": {
+				"bash": {
+					"": "ask",
+					"mkdir -p .Nexus/4-review": "allow",
+					"mkdir -p .Nexus/4-review/.old": "allow",
+					"mkdir -p .Nexus/3-implement/.old": "allow",
+					"mv .Nexus/3-implement/* .Nexus/3-implement/.old/": "allow",
+					"mv .Nexus/4-review/* .Nexus/4-review/.old/": "allow"
+				},
+				"read": {
+					"**": "allow"
+				},
+				"write": {
+					".Nexus/4-review/**": "allow",
+					".Nexus/3-implement/.old/**": "allow"
+				},
+				"edit": {
+					".Nexus/4-review/**": "allow",
+					"**/*.test.*": "allow",
+					"**/*.spec.*": "allow"
+				}
+			}
+		},
+		"UI_Coder": {
+			"mode": "subagent",
+			"prompt": "{file:./prompts/UI_Coder.txt}",
+			"tools": {
+				"bash": {
+					"": "ask",
+					"mkdir -p .Nexus/0-fact/*": "allow",
+					"mkdir -p .Nexus/3-implement": "allow"
+				},
+				"read": {
+					"**": "allow"
+				},
+				"write": {
+					"**": "allow"
+				},
+				"edit": {
+					"**": "allow"
+				}
+			}
+		},
+		"UI_Investigator": {
+			"mode": "subagent",
+			"prompt": "{file:./prompts/UI_Investigator.txt}",
+			"tools": {
+				"bash": {
+					"": "ask",
+					"mkdir -p .Nexus/1-research": "allow",
+					"mkdir -p .Nexus/.tool": "allow"
+				},
+				"read": {
+					"**": "allow"
+				},
+				"write": {
+					".Nexus/1-research/**": "allow",
+					".Nexus/.tool/**": "allow"
+				},
+				"edit": {
+					".Nexus/1-research/**": "allow",
+					".Nexus/.tool/**": "allow"
+				}
+			}
+		},
+		"WebSearcher": {
+			"mode": "subagent",
+			"prompt": "{file:./prompts/WebSearcher.txt}",
+			"tools": {
+				"bash": {
+					"": "ask",
+					"mkdir -p .Nexus/.search-cache": "allow",
+					"mkdir -p .Nexus/.tool": "allow"
+				},
+				"read": {
+					".Nexus/.search-cache/**": "allow",
+					".Nexus/.tool/**": "allow"
+				},
+				"write": {
+					".Nexus/.search-cache/**": "allow",
+					".Nexus/.tool/**": "allow"
+				},
+				"edit": {
+					".Nexus/.search-cache/**": "allow",
+					".Nexus/.tool/**": "allow"
+				}
+			}
+		}
+	}
+}
