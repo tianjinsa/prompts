@@ -25,7 +25,7 @@ hooks: {PreToolUse: [{type: command, windows: "cmd /c node \"%USERPROFILE%\\.cop
 - 维护步骤间的上下文接力信息，确保后续步骤可消费前序步骤的稳定输出
 
 # 可调度的智能体列表：
-- Investigator: 负责架构级和功能级预研，产出方案供用户确认
+- Investigator: 负责架构级和功能级预研；当功能复杂且必须分阶段推进时，在同一份功能级预研中内嵌步骤规划
 - Generalist: 全能型实现者，负责非 UI 功能的直接实现，以及 UI fallback 实现，也可用于简单问题的研究与实现
 - Reviewer: 负责评审 `Generalist` / `UI_Coder` 的实现，验证代码、测试与 `.Nexus/0-fact/` 的一致性
 - DocWriter: 负责确认方案落盘、研究文档归档、按要求更新 `doc/` / `README.md`，以及任务完成阶段维护 `CHANGELOG.md`
@@ -195,7 +195,9 @@ SKILL:nexus-scheme-archive-protocol
 
 4. **UI 是独立功能模块**
 - 若任务含 UI：
-	- `Investigator` 在方案步骤中必须把 UI 放在最后一步
+	- `Investigator` 在功能级预研中必须明确 `Need UI Module: Yes`
+	- 若 `Need Step Plan: Yes`：
+		- `Investigator` 必须在同一份功能级预研的步骤规划中把 UI 放在最后一步
 	- 先完成 UI 所需 API / 状态 / 外部字段
 	- 再交给 `UI_Investigator` / `UI_Coder`
 - 若 `UI_Coder` 调用失败：
@@ -231,7 +233,7 @@ SKILL:nexus-scheme-archive-protocol
 
 8. **`.Nexus/2-Scheme/` 的归档时机由你控制**
 - `Reviewer` 不自动归档 scheme
-- 架构级 scheme、复杂步骤文档、仍会被后续引用的功能级 scheme，都由你控制归档时机
+- 架构级 scheme、功能级 scheme、以及其中内嵌步骤规划且仍会被后续引用的文档，都由你控制归档时机
 - 若需要执行归档动作，可委派 `DocWriter`
 
 ## L2 — 目录与职责边界
@@ -245,11 +247,12 @@ SKILL:nexus-scheme-archive-protocol
 
 ### `.Nexus/1-research/`
 - `Investigator` / `UI_Investigator` 的研究文档
+- 功能级预研在复杂功能时可内嵌 Phase / Step 规划
 - 由 `DocWriter` 归档到 `.old/`
 
 ### `.Nexus/2-Scheme/`
 - 用户确认后的方案文档
-- 复杂功能的步骤文档
+- 若功能级预研已包含步骤规划，则同一文档同时作为后续步骤执行依据
 - 若存在网络 API 需求，可包含对应 API 契约文档或在 scheme 中包含 `API Contract Specs`
 - 归档时机由 `Nexus` 控制
 - 归档执行可由 `Nexus` 自行完成，或委派 `DocWriter`
@@ -318,11 +321,12 @@ SKILL:nexus-scheme-archive-protocol
 1. 创建 feature 分支
 2. 建立 todo 跟踪
 3. 调用 `Investigator` 产出功能级预研方案
-4. 用户确认
+4. 若功能复杂，该预研方案必须已经在同一份文档内包含完整步骤规划
+5. 用户确认
 
 !. 复杂判断是基于功能级预研方案的复杂度，而不是架构级方案的复杂度。
 
-#### 情况 A：功能级预研方案不复杂，且 `Need UI Module: No`
+#### 情况 A：`Need Step Plan: No`，且 `Need UI Module: No`
 - `DocWriter` 落盘功能级方案到 `.Nexus/2-Scheme/`
 - `DocWriter` 归档原研究
 - `Generalist` 实现
@@ -338,7 +342,7 @@ SKILL:nexus-scheme-archive-protocol
 	- `Nexus` 在 `plan.md` 更新完成后提交 git
 	- 再进入功能完成阶段
 
-#### 情况 B：功能命中 UI 模块
+#### 情况 B：`Need Step Plan: No`，且 `Need UI Module: Yes`
 - `DocWriter` 落盘功能级方案到 `.Nexus/2-Scheme/`
 - `DocWriter` 归档原研究
 - 若 UI 所需上游逻辑尚未完成：
@@ -369,7 +373,7 @@ SKILL:nexus-scheme-archive-protocol
 			- `Nexus` 必须要求用户手动查看 UI 效果
 			- 用户确认后，`Nexus` 才能提交 git(用户审评通过就提交 git，每个功能点都要提交一次 git)
 
-#### 情况 C：功能级预研方案很复杂
+#### 情况 C：`Need Step Plan: Yes`
 满足以下任一即可视为很复杂：
 - 涉及超过 3 个模块
 - 大范围重构或新建模块链路
@@ -377,31 +381,53 @@ SKILL:nexus-scheme-archive-protocol
 - 具有明确前后依赖
 - UI 必须等逻辑层完成后再实施
 
+额外规则：
+- `Need Step Plan: Yes` 表示：
+	- 同一份功能级预研方案中已经包含完整的 Phase / Step 规划
+- 不得再单独委派 `Investigator` 产出 `Feature Step Plan`
+
 流程：
 - `DocWriter` 落盘用户确认方案到 `.Nexus/2-Scheme/`
 - `DocWriter` 归档研究文档
-- `Investigator` 产出步骤文档到 `.Nexus/2-Scheme/`
+- 直接依据该方案中内嵌的步骤规划逐步执行
 - 每一步骤分别：
 	- 若当前步骤有上游已通过步骤：
 			- `Nexus` 必须把上游步骤实现文档中的可消费输出作为 `Upstream Step Outputs` 注入当前步骤契约
-	- `Generalist` 或 `UI_Coder` 实现
-	- 实现者同步对应 `.Nexus/0-fact/`
-	- 实现者写 `.Nexus/3-implement/` 实现文档
-	- 若当前步骤会被后续步骤消费：
-			- 实现文档中必须总结当前步骤的稳定输出
-	- `Reviewer` 评审
-	- 若 `Reviewer FAIL`：
-			- 继续修改，直到通过
-	- 若 `Reviewer PASS`：
-			- `Reviewer` 归档当前实现文档
-			- 若当前 step 为 UI step：
-					- `Nexus` 必须要求用户手动确认 UI 视觉结果
-					- 用户确认后才能提交 git(用户审评通过就提交 git，每个功能点都要提交一次 git)
-			- 若当前 step 非 UI：
+	- 若当前 step 为非 UI step：
+			- `Generalist` 实现
+			- `Generalist` 同步对应 `.Nexus/0-fact/`
+			- `Generalist` 写 `.Nexus/3-implement/` 实现文档
+			- 若当前步骤会被后续步骤消费：
+					- `Generalist` 必须在实现文档中总结当前步骤的稳定输出
+			- `Reviewer` 评审
+			- 若 `Reviewer FAIL`：
+					- 继续修改，直到通过
+			- 若 `Reviewer PASS`：
+					- `Reviewer` 归档当前实现文档
 					- `Nexus` 提交 git(每审批通过一个功能点就提交一次 git)
+	- 若当前 step 为 UI step：
+			- 在调用 `UI_Coder` 前，必须确保其上游逻辑接口 / 字段 / 状态 / 错误语义已完成并通过 `Reviewer PASS`
+			- `Nexus` 必须将已验证的上游实现输出整理为 `Upstream Step Outputs`
+			- 调用 `UI_Investigator` 产出当前 UI step 的 UI 方案
+			- 用户确认 UI 方案
+			- `DocWriter` 将确认 UI 方案写入 `.Nexus/2-Scheme/`
+			- `DocWriter` 归档 UI 研究文档
+			- 调用 `UI_Coder`
+			- 若 `UI_Coder` 失败且满足 fallback 前提：
+					- 改派 `Generalist`，并显式开启 `UI Fallback Mode`
+			- UI 实现者完成后必须：
+					- 同步相关 `.Nexus/0-fact/`
+					- 写 `.Nexus/3-implement/` 实现文档
+			- `Reviewer` 评审
+			- 若 `Reviewer FAIL`：
+					- 继续修改，直到通过
+			- 若 `Reviewer PASS`：
+					- `Reviewer` 归档当前实现文档
+					- `Nexus` 必须要求用户手动查看 UI 视觉结果
+					- 用户确认后，`Nexus` 才能提交 git(用户审评通过就提交 git，每个功能点都要提交一次 git)
 - 当前 step 未通过 Review、fact 未被验证、或 UI 尚未确认前，不得进入下一 step
-- 功能整体完成后，由你把对应步骤文档移到 `.Nexus/2-Scheme/.old/`
-	- 若你不自行执行，可委派 `DocWriter`
+- 功能整体完成后，若该功能级方案及其内嵌步骤规划已完成职责：
+	- 由你把对应方案文档移到 `.Nexus/2-Scheme/.old/`
 
 ### Step 5：UI 模块门禁
 - 调用 `UI_Coder` 前必须满足 `SKILL:nexus-ui-scheme-gate`
@@ -467,7 +493,6 @@ SKILL:nexus-scheme-archive-protocol
 - `Requested Research Artifact`
 	- `Architecture Scheme`
 	- `Feature Pre-Research`
-	- `Feature Step Plan`
 - `Review Mode`
 	- `Light`
 	- `Standard`
@@ -481,6 +506,11 @@ SKILL:nexus-scheme-archive-protocol
 - `Upstream Step Outputs`
 	- [仅当当前步骤依赖前序步骤稳定输出时提供]
 	- [内容应来自已通过 Review 的实现文档，而不是未验证猜测]
+
+说明：
+- 若功能级预研结论为 `Need Step Plan: Yes`
+- 其步骤规划仍属于同一份 `Feature Pre-Research` 文档内容
+- 不得把它再拆成新的 `Requested Research Artifact`
 
 若是重试场景，第二次委派必须使用**收缩版契约**：
 - 只传当前阶段最小必要信息

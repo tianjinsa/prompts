@@ -1,5 +1,7 @@
+import { randomInt } from "node:crypto";
 import path from "node:path";
 import process from "node:process";
+
 
 // 从 stdin 读取 VS Code Hook 传入的 JSON 数据
 const chunks = [];
@@ -43,12 +45,13 @@ function deny(reason, additionalContext = reason) {
  * 放行本次工具调用
  * @param {string} additionalContext 放行时提供给模型的额外上下文
  */
-function allow(permissionDecisionReason = `路径检查通过：${toolName}`) {
+function allow(permissionDecisionReason = `路径检查通过：${toolName}`, additionalContext = '') {
 	process.stdout.write(JSON.stringify({
+		systemMessage: additionalContext,
 		hookSpecificOutput: {
 			hookEventName: "PreToolUse",
 			permissionDecision: "allow",
-			permissionDecisionReason: permissionDecisionReason,
+			additionalContext: additionalContext,
 		}
 	}));
 	process.exit(0);
@@ -60,7 +63,7 @@ if (!workspaceRoot) {
 }
 
 // 允许访问的根目录：工作区下的 .Nexus
-const allowedRoot = path.resolve(workspaceRoot, ".Nexus");
+const nexusRoot = path.resolve(workspaceRoot, ".Nexus");
 
 /**
  * 将工具输入中的路径解析为绝对路径
@@ -76,17 +79,26 @@ function toAbsolutePath(p) {
 }
 
 /**
- * 判断某个绝对路径是否位于 allowedRoot 内部
+ * 判断某个绝对路径是否在允许的范围内
+ * 允许范围：
+ * 1. 工作区下的 .Nexus 目录
+ * 2. 任意路径下的 skills 目录（路径中包含 skills 作为组成部分）
  * @param {string} absPath
  * @returns {boolean}
  */
-function isInsideAllowedRoot(absPath) {
-	const rel = path.relative(allowedRoot, absPath);
-	return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
+function isPathAllowed(absPath) {
+	// 检查是否在 .Nexus 目录下
+	const relToNexus = path.relative(nexusRoot, absPath);
+	if (relToNexus === "" || (!relToNexus.startsWith("..") && !path.isAbsolute(relToNexus))) {
+		return true;
+	}
+	// 检查路径中是否包含 skills 作为组成部分
+	const pathParts = absPath.split(path.sep);
+	return pathParts.includes("skills");
 }
 
 /**
- * 检查一组路径是否都在 .Nexus/* 范围内
+ * 检查一组路径是否都在允许的范围内（.Nexus 目录或任意 skills 目录）
  * 只要有任意路径越界，就拒绝本次工具调用
  * @param {string[]} paths
  */
@@ -96,11 +108,11 @@ function checkPaths(paths) {
 		if (!abs) {
 			continue;
 		}
-		if (!isInsideAllowedRoot(abs)) {
+		if (!isPathAllowed(abs)) {
 			// 拒绝访问越界路径，并提供额外上下文帮助模型理解权限边界
 			deny(
-				`拦截nexus使用 ${toolName} 访问非 .Nexus 目录文件的请求`,
-				`Nexus 没有读取或修改非 .Nexus/* 文件的权限 | 允许范围：${allowedRoot} | 你必须严格按照系统提示词描述的流程进行操作`
+				`拦截nexus使用 ${toolName} 访问非允许目录文件的请求`,
+				`Nexus 没有读取或修改非允许目录文件的权限 | 允许范围：.Nexus 目录或任意 skills 目录 | 你必须严格按照系统提示词描述的流程进行操作`
 			);
 			return;
 		}
@@ -149,5 +161,11 @@ switch (toolName) {
 	// 其他未知工具：当前策略是默认放行
 	// 如果你希望更严格，可以改成 deny(...)
 	default:
-		allow(`未命中受限文件工具，默认放行：${toolName}`);
+		var x=randomInt(0, 100);
+		if(x <= 30) {
+			allow(`未命中受限文件工具，默认放行：${toolName}`,"随机提醒:你必须严格按照系统提示词描述的流程进行操作，比如plan.md文件的管理");
+		}
+		else {
+			allow(`未命中受限文件工具，默认放行：${toolName},${x}`);
+		}
 }
