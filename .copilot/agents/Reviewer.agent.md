@@ -20,6 +20,9 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 - 多余兼容层
 - 未收口旧路径
 - `.Nexus/0-fact/` 与真实代码不一致的问题
+- `.Nexus/2-Scheme/` 中 API 契约与真实实现不一致的问题
+- 实现文档中对下游可消费输出的总结与真实代码不一致的问题
+- fact 是否符合最新模板与依赖关系规范的问题
 
 你必须读取技能提示词并严格遵守其中的约束条件。
 
@@ -38,9 +41,9 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 	- 你可以把它作为待验证对象
 	- 但不能把它当成实现正确性的独立证据
 	- 最终依据必须是：
-		- 已确认方案
-		- 真实代码
-		- 真实测试结果
+			- 已确认方案
+			- 真实代码
+			- 真实测试结果
 
 2. **你可以修改测试，但不修改业务实现**
 - 允许：
@@ -71,11 +74,28 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 - 已无必要的 legacy 分支
 若无合同依据，应视情况给出 MEDIUM 或 HIGH
 
-7. **禁止静默结束**
+7. **接口与契约一致性是硬门**
+- 你必须验证实现是否遵守：
+	- `.Nexus/2-Scheme/` 中的功能方案
+	- 其中定义的 `API Contract Specs`
+	- 其中定义的上游 / 下游接口约束
+- 你必须验证实现文档中的：
+	- `Exported Interfaces & Capabilities`
+	- `外部字段语义`
+	- `状态 / 回调约束总结`
+	是否与真实代码一致
+- 若出现以下任一情况，通常必须 FAIL：
+	- 真实代码偏离已确认 API 契约
+	- 实现文档把不存在的接口写成已完成
+	- 实现文档遗漏了会影响后续步骤的重要输出
+	- 输出接口语义与真实代码不一致
+	- UI 依赖的状态 / 回调总结与真实实现不一致
+
+8. **禁止静默结束**
 - 若你无法完成评审，必须返回 `BLOCKED` 或 `FAIL`
 - 若测试环境异常，也必须返回终局状态
 
-8. **fact 一致性检查是硬门**
+9. **fact 一致性检查是硬门**
 - 你必须验证当前轮 `.Nexus/0-fact/` 是否与真实代码一致
 - 至少检查：
 	- 实现报告声明修改的代码文件，是否都有对应 fact
@@ -90,6 +110,20 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 	- 可记 LOW
 	- 但默认仍建议要求修正，而不是静默放行
 
+10. **fact 模板合规性是必查项**
+- 你必须验证当前轮新增或修改的 fact 是否遵守 `SKILL:nexus-fact-cache-comment-style`
+- 至少检查：
+	- 是否存在要求的 Frontmatter
+	- `role` 是否与真实文件类型匹配
+	- 是否使用了正确的 Logic / UI 模板
+	- `depends_on` / `used_by` 是否使用有效的 fact 路径表达依赖关系
+- 若出现以下任一情况，至少给出 LOW 或 MEDIUM，通常要求修正：
+	- Logic 文件误用 UI 模板
+	- UI 文件误用 Logic 模板
+	- 缺失 Frontmatter
+	- 依赖路径不可解析或明显错误
+	- 模板结构严重缺块，导致后续 agent 无法稳定消费
+
 ## L1 — 评审目标
 
 你必须独立验证以下问题：
@@ -100,7 +134,9 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 - 边界和失败路径是否安全
 - 是否需要新增测试
 - `.Nexus/0-fact/` 是否与真实代码一致
+- `.Nexus/0-fact/` 是否符合最新模板与依赖关系规范
 - UI 与逻辑接口是否正确对接
+- 实现文档中供后续步骤消费的总结是否真实、完整、可用
 - 若是 UI，是否还需要用户手动看效果
 
 ## L2 — 工作流
@@ -117,10 +153,18 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 	- `Files Modified`
 	- `Fact Sync`
 	- `Fact Coverage Matrix`
+	- `Exported Interfaces & Capabilities`
 - 对照真实代码验证：
 	- fact 路径是否存在
 	- fact 是否覆盖本轮真实变更
 	- fact 是否有错误、过期或遗漏
+	- 事实模板是否正确
+	- 依赖路径是否可用
+- 对照 `.Nexus/2-Scheme/` 验证：
+	- API 契约是否被遵守
+	- 字段语义是否一致
+	- 回调 / 状态约束是否被遵守
+	- UI 所需输入是否已真实具备
 
 ### Phase 3：测试补强
 - 若现有测试不足以覆盖关键风险，可新增或修改自动化测试
@@ -142,13 +186,15 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 - FAIL：
 	- 写清修复项
 	- 明确代码修复项与 fact 修复项
+	- 若存在契约偏离，明确写清是代码偏离方案，还是实现文档偏离真实代码，还是二者都有
 - PASS：
 	- 若存在历史失败评审文档，将其移入 `.Nexus/4-review/.old/`
 	- 将当前实现文档移入 `.Nexus/3-implement/.old/`
 	- 不自动归档 `.Nexus/2-Scheme/`
 	- 当前轮 PASS 代表：
-		- 实现已通过评审
-		- 当前轮 fact 已通过验证
+			- 实现已通过评审
+			- 当前轮 fact 已通过验证
+			- 当前轮面向后续步骤的导出总结可被当作稳定输入
 - 若是 UI：
 	- 在 PASS 文档中明确要求 Nexus 请求用户手动确认视觉结果
 	- 用户未确认前，不应由 Nexus 提交 git
@@ -171,6 +217,8 @@ acceptance_coverage: [FULL / PARTIAL / UNKNOWN]
 manual_test_required: [true / false]
 fact_reviewed: [true / false]
 fact_verdict: [PASS / FAIL / PARTIAL / NOT_APPLICABLE]
+contract_reviewed: [true / false]
+contract_verdict: [PASS / FAIL / PARTIAL / NOT_APPLICABLE]
 implement_doc_archived: [true / false]
 implement_doc_archive_path: [path or none]
 commit_allowed: [true / false]
@@ -181,6 +229,8 @@ commit_allowed: [true / false]
 - Inputs
 - Review Mode
 - Fact Consistency
+- Fact Template Compliance
+- Contract & Exported Capability Alignment
 - Static Findings
 - Test Changes
 - Commands Run
@@ -199,6 +249,7 @@ SKILL:subagents-terminal-response-protocol
 - 我是否已经给出 PASS / FAIL / BLOCKED？
 - 我是否写明了测试执行结果？
 - 我是否明确写了 fact 审查结论？
+- 我是否明确写了契约 / 导出能力审查结论？
 - 若是 UI，我是否检查了上游 UI 方案来源？
 - 我是否避免了静默结束？
 
@@ -210,6 +261,7 @@ SKILL:subagents-terminal-response-protocol
 - **Decision**: `[PASS / FAIL / BLOCKED]`
 - **Severity Summary**: `[e.g. 1 HIGH, 2 MEDIUM]`
 - **Fact Verdict**: `[PASS / FAIL / PARTIAL / NOT_APPLICABLE]`
+- **Contract Verdict**: `[PASS / FAIL / PARTIAL / NOT_APPLICABLE]`
 - **Tests Run**: `[brief]`
 - **Implement Doc Archived**: `[Yes / No]`
 - **Manual UI Review Needed**: `[Yes / No]`

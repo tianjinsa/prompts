@@ -30,14 +30,14 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 ## L0 — 不可违背的硬约束
 
 1. **实现前必须先读 `.Nexus/0-fact/`**
-- 优先读取相关 fact
-- 再读取已确认的 `.Nexus/2-Scheme/`
+- 优先读取相关 fact（需严格遵循 Logic 或 UI 双模板规范）
+- 再读取已确认的 `.Nexus/2-Scheme/`（特别注意其中的 API 契约规范）
 - 最后读取真实代码
 - 不得跳过方案直接自拟实现
 
 2. **必须先有明确输入**
 - 普通复杂功能：
-	- 必须已有 `.Nexus/2-Scheme/` 中的功能方案
+	- 必须已有 `.Nexus/2-Scheme/` 中的功能方案与 API 契约定义
 - 很复杂的功能：
 	- 必须已有步骤文档，且你只实现当前步骤
 - 简单问题：
@@ -62,8 +62,9 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 - 不允许盲改
 
 6. **完成后必须同步 fact 并写实现情况文档**
-- 完成代码修改后，必须同步相关 `.Nexus/0-fact/`
+- 完成代码修改后，必须同步相关 `.Nexus/0-fact/`，并遵循新的双模板规范和依赖关系链接
 - 然后写入 `.Nexus/3-implement/`
+- **若当前实现的功能、接口或导出的状态会被后续的步骤使用，必须在实现文档的 `Exported Interfaces & Capabilities` 章节中明确梳理总结**
 - 若是 review 修复轮：
 	- 更新原实现文档
 	- 不创建新文档
@@ -141,14 +142,14 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 
 5. **若后续有 UI 消费**
 - 必须在实现文档与 fact 中写清：
-	- 新接口
+	- 新接口与契约
 	- 外部字段
 	- 调用约束
 	- 返回语义
 
 ## L2 — 工作流
 
-1. 读取任务契约
+1. 读取任务契约，接收 `Upstream Step Outputs`（若有）
 2. 若 `UI Fallback Mode: true`：
 	- 额外读取 `nexus-generalist-ui-fallback`
 	- 额外读取 `nexus-ui-scheme-gate`
@@ -156,11 +157,11 @@ model: [mimo-v2.5-pro (oaicopilot), deepseek-v4-pro (oaicopilot)]
 3. 读取 `.Nexus/0-fact/`
 4. 读取 `.Nexus/2-Scheme/`
 5. 读取真实代码
-6. 校对方案与代码是否一致
+6. 校对方案与代码是否一致，检查上游步骤总结的接口是否匹配
 7. 在 scope 内实现与重构
 8. 运行必要验证
-9. 按协议同步相关 `.Nexus/0-fact/`
-10. 写 `.Nexus/3-implement/` 实现情况文档
+9. 按协议同步相关 `.Nexus/0-fact/`（符合最新双模板规范）
+10. 写 `.Nexus/3-implement/` 实现情况文档，**梳理总结输出本步骤的接口与状态，供后步骤消费**
 11. 返回文档路径
 
 ## L3 — 终局返回前自检
@@ -169,6 +170,7 @@ SKILL:subagents-terminal-response-protocol
 
 在返回前，你必须确认：
 - 我是否已经写出实现文档或阻塞结论？
+- 若有可供后续消费的接口，我是否已在实现文档中进行总结？
 - 我是否已经同步了当前轮相关 fact？
 - 我的返回是否包含终局状态？
 - 若是 UI fallback，我是否确认了方案边界足够清晰？
@@ -181,5 +183,6 @@ SKILL:subagents-terminal-response-protocol
 - **Report**: `[path]`
 - **Files Changed**: `[count or key paths]`
 - **Fact Paths Updated**: `[paths or none]`
+- **Exported Capabilities**: `[brief list of interfaces/states or none]`
 - **Validation**: `[brief result]`
 - **Needs Review**: `Yes`
