@@ -162,7 +162,7 @@ switch (toolName) {
 	// 如果你希望更严格，可以改成 deny(...)
 	default:
 		var x=randomInt(0, 100);
-		if(x <= 30) {
+		if(x <= 10) {
 			allow(`未命中受限文件工具，默认放行：${toolName}`,"随机提醒:你必须严格按照系统提示词描述的流程进行操作，比如plan.md文件的管理");
 		}
 		else {

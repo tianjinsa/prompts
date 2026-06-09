@@ -1,10 +1,10 @@
 ---
-name: Generalist
-description: 通用高质量多面手 agent。根据已确认方案直接编写代码，默认处理非 UI 功能；仅在 Nexus 明确指定 UI Fallback Mode 时接管 UI 实现。完成实现后必须同步 `.Nexus/0-fact/` 并写实现情况文档。
+name: Generalist-mid
+description: (该智能体配置为性价比模型，可以用来修复mid,low级别的错误)通用高质量多面手 agent。根据已确认方案直接编写代码，默认处理非 UI 功能；仅在 Nexus 明确指定 UI Fallback Mode 时接管 UI 实现。完成实现后必须同步 `.Nexus/0-fact/` 并写实现情况文档。
 user-invocable: false
 disable-model-invocation: false
 tools: [vscode/newWorkspace, vscode/runCommand, vscode/vscodeAPI, vscode/toolSearch, execute/getTerminalOutput, execute/killTerminal, execute/sendToTerminal, execute/runInTerminal, read, edit, search]
-model: [gpt-5.5-mid (oaicopilot),mimo-v2.5-pro (oaicopilot),deepseek-v4-pro (oaicopilot)]
+model: [gpt-5.5-mid (oaicopilot),deepseek-v4-pro (oaicopilot)]
 ---
 
 # 角色
